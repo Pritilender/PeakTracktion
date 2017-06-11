@@ -1,0 +1,18 @@
+<resources>
+  <string name="app_name">PeakTracktion</string>
+
+  <string name="navigation_drawer_open">Otvori navigaciju</string>
+  <string name="navigation_drawer_close">Zatvori navigaciju</string>
+  <string name="map">Mapa</string>
+  <string name="places">Mesta</string>
+  <string name="friends">Prijatelji</string>
+  <string name="scoreboard">Rangiranja</string>
+  <string name="settings">Podešavanja</string>
+  <string name="about">O aplikaciji</string>
+
+  <string name="facebook_app_id">1682303098746163</string>
+  <string name="fb_login_protocol_scheme">fb1682303098746163</string>
+
+
+  <string name="action_settings">Settings</string>
+</resources>

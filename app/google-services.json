@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "635550884498",
+    "firebase_url": "https://peaktracktion.firebaseio.com",
+    "project_id": "peaktracktion",
+    "storage_bucket": "peaktracktion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635550884498:android:fee1032bb8a498fa",
+        "android_client_info": {
+          "package_name": "rs.elfak.miksa_mladen.peaktracktion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635550884498-fkvn0gfaf4as48mds91j3ih5h6s6303h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoCTUH_Q85jeL5vyUyDU8c4F2IhqYgN6g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
