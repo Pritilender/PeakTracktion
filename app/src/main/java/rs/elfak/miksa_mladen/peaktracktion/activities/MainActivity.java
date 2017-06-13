@@ -13,8 +13,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
+import rs.elfak.miksa_mladen.peaktracktion.fragments.AboutFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.MapFragment;
+import rs.elfak.miksa_mladen.peaktracktion.fragments.PeopleFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.PlacesFragment;
+import rs.elfak.miksa_mladen.peaktracktion.fragments.ScoreboardFragment;
+import rs.elfak.miksa_mladen.peaktracktion.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity
   implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,11 +42,14 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
       this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-    drawer.setDrawerListener(toggle);
+    drawer.addDrawerListener(toggle);
     toggle.syncState();
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+//     TODO better way?
+    onNavigationItemSelected(navigationView.getMenu().getItem(0));
+    navigationView.setCheckedItem(R.id.nav_map);
   }
 
   @Override
@@ -91,16 +98,16 @@ public class MainActivity extends AppCompatActivity
         replaceFragment(new PlacesFragment(), "Places");
         break;
       case R.id.nav_friends:
-        toastText += "friends!";
+        replaceFragment(new PeopleFragment(), "Friends");
         break;
       case R.id.nav_scoreboard:
-        toastText += "scoreboard!";
+        replaceFragment(new ScoreboardFragment(), "Scoreboard");
         break;
       case R.id.nav_settings:
-        toastText += "settings!";
+        replaceFragment(new SettingsFragment(), "Settings");
         break;
       case R.id.nav_about:
-        toastText += "about!";
+        replaceFragment(new AboutFragment(), "About");
         break;
     }
 
