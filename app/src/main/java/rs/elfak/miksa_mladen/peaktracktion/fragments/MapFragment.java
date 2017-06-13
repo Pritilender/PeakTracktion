@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -83,6 +84,7 @@ public class MapFragment extends Fragment
 
   @Override
   public void onDestroy() {
+    // TODO save context here
     mMapView.onDestroy();
     super.onDestroy();
   }

@@ -2,6 +2,7 @@ package rs.elfak.miksa_mladen.peaktracktion.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.MapFragment;
+import rs.elfak.miksa_mladen.peaktracktion.fragments.PlacesFragment;
 
 public class MainActivity extends AppCompatActivity
   implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,14 +85,10 @@ public class MainActivity extends AppCompatActivity
 
     switch (id) {
       case R.id.nav_map:
-        MapFragment map = new MapFragment();
-        getSupportFragmentManager().beginTransaction()
-          .replace(R.id.fragment_main, map)
-          .commit();
-        setTitle("Map");
+        replaceFragment(new MapFragment(), "Map");
         break;
       case R.id.nav_places:
-        toastText += "places!";
+        replaceFragment(new PlacesFragment(), "Places");
         break;
       case R.id.nav_friends:
         toastText += "friends!";
@@ -114,8 +112,10 @@ public class MainActivity extends AppCompatActivity
     return true;
   }
 
-//  @Override
-//  public void onFragmentInteraction(Uri uri) {
-//
-//  }
+  private void replaceFragment(Fragment newFragment, String newTitle) {
+    getSupportFragmentManager().beginTransaction()
+      .replace(R.id.fragment_main, newFragment)
+      .commit();
+    setTitle(newTitle);
+  }
 }
