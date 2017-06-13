@@ -9,10 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
+import rs.elfak.miksa_mladen.peaktracktion.fragments.MapFragment;
 
 public class MainActivity extends AppCompatActivity
   implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,7 +83,11 @@ public class MainActivity extends AppCompatActivity
 
     switch (id) {
       case R.id.nav_map:
-        toastText += "map!";
+        MapFragment map = new MapFragment();
+        getSupportFragmentManager().beginTransaction()
+          .replace(R.id.fragment_main, map)
+          .commit();
+        setTitle("Map");
         break;
       case R.id.nav_places:
         toastText += "places!";
@@ -109,4 +113,9 @@ public class MainActivity extends AppCompatActivity
     drawer.closeDrawer(GravityCompat.START);
     return true;
   }
+
+//  @Override
+//  public void onFragmentInteraction(Uri uri) {
+//
+//  }
 }
