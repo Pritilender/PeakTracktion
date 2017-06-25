@@ -112,8 +112,8 @@ public class MapFragment extends Fragment
     if (noPermission) {
       if (ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(), locationPermission)) {
         new AlertDialog.Builder(this.getActivity())
-          .setTitle("Grant Location Access")
-          .setMessage("Do you trust this?")
+          .setTitle(getString(R.string.location_permission_title))
+          .setMessage(getString(R.string.location_permission_text))
           .setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
