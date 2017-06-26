@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/PeakTrack.iml" filepath="$PROJECT_DIR$/PeakTrack.iml" />
       <module fileurl="file://$PROJECT_DIR$/PeakTracktion.iml" filepath="$PROJECT_DIR$/PeakTracktion.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
