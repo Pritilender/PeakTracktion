@@ -10,7 +10,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.AboutFragment;
@@ -21,23 +31,26 @@ import rs.elfak.miksa_mladen.peaktracktion.fragments.ScoreboardFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity
-  implements NavigationView.OnNavigationItemSelectedListener {
+  implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+  // Auth
+  private FirebaseAuth mAuth;
+
+  // UI references
+  private ImageView mUserPicture;
+  private Button mUserName;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
+
+    // UI setup
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -47,9 +60,21 @@ public class MainActivity extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
-//     TODO better way?
+    // set default selected item in navigation view
     onNavigationItemSelected(navigationView.getMenu().getItem(0));
     navigationView.setCheckedItem(R.id.nav_map);
+
+    // Header setup
+    View headerView = navigationView.getHeaderView(0);
+    mUserName = (Button) headerView.findViewById(R.id.button_user_name);
+    mUserPicture = (ImageView) headerView.findViewById(R.id.image_user);
+    mUserName.setText(user.getDisplayName());
+    mUserName.setOnClickListener(this);
+    Glide.with(headerView)
+      .load(user.getPhotoUrl())
+      .apply(RequestOptions.circleCropTransform())
+      .into(mUserPicture);
+    headerView.findViewById(R.id.button_sign_out).setOnClickListener(this);
   }
 
   @Override
@@ -86,9 +111,7 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public boolean onNavigationItemSelected(MenuItem item) {
-    // Handle navigation view item clicks here.
     int id = item.getItemId();
-    String toastText = "Should show ";
 
     switch (id) {
       case R.id.nav_map:
@@ -111,9 +134,6 @@ public class MainActivity extends AppCompatActivity
         break;
     }
 
-    Toast.makeText(this, toastText, Toast.LENGTH_SHORT)
-      .show();
-
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
@@ -124,5 +144,20 @@ public class MainActivity extends AppCompatActivity
       .replace(R.id.fragment_main, newFragment)
       .commit();
     setTitle(newTitle);
+  }
+
+  @Override
+  public void onClick(View v) {
+    int id = v.getId();
+
+    switch(id) {
+      case R.id.button_sign_out:
+        mAuth.signOut();
+        finish();
+        break;
+      case R.id.button_user_name:
+        Toast.makeText(this, "Should enter user info activity", Toast.LENGTH_SHORT).show();
+        break;
+    }
   }
 }

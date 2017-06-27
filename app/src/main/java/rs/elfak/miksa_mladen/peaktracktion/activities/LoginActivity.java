@@ -23,6 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
   // Firebase instances
   private FirebaseAuth mAuth;
+  private FirebaseAuth.AuthStateListener mAuthStateListener;
 
   // UI references
   private ProgressBar mProgressBar;
@@ -50,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     // Setup click listeners
     findViewById(R.id.button_login_google).setOnClickListener(this);
 
-    // setup Google Sign In
+    // Setup Google Sign In
     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
       .requestIdToken(getString(R.string.default_web_client_id))
       .requestEmail()
@@ -63,6 +65,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     // Setup Firebase
     mAuth = FirebaseAuth.getInstance();
+    mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+      @Override
+      public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+          // user is signed in
+          goToMainActivity();
+        }
+      }
+    };
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    mAuth.addAuthStateListener(mAuthStateListener);
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    mAuth.removeAuthStateListener(mAuthStateListener);
   }
 
   @Override
@@ -91,7 +115,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
   private void signInGoogleWithAccount(GoogleSignInAccount account) {
     mProgressBar.setVisibility(View.VISIBLE);
-
     AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
     mAuth.signInWithCredential(credential)
       .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -99,8 +122,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         public void onComplete(@NonNull Task<AuthResult> task) {
           if (!task.isSuccessful()) {
             Toast.makeText(LoginActivity.this, "Failed...", Toast.LENGTH_SHORT).show();
-          } else {
-            goToMainActivity();
+            try {
+              throw task.getException();
+            } catch (Exception e) {
+              Log.d("AUTH", e.getMessage());
+            }
           }
           mProgressBar.setVisibility(View.INVISIBLE);
         }
