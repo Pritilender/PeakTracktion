@@ -13,11 +13,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
-import rs.elfak.miksa_mladen.peaktracktion.activities.MainActivity;
 import rs.elfak.miksa_mladen.peaktracktion.adapters.PlacesAdapter;
 import rs.elfak.miksa_mladen.peaktracktion.list_items.Place;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,15 +23,34 @@ public class PlacesFragment extends Fragment {
 
   private ListView list;
 
-  private final String[] itemname = {
-    "Safari",
-    "Camera",
-    "Global",
-    "FireFox",
-    "UC Browser",
-    "Android Folder",
-    "VLC Player",
-    "Cold War"
+  private final String[] itemName = {
+    "Trem",
+    "Koritnjak",
+    "Sokolov Kamen",
+    "Jelenin grad",
+    "Mon Blam",
+    "Pasarelo",
+    "Crni Kamen",
+    "Mosor",
+    "Niska Banja",
+    "Midzor",
+    "Djeravica",
+    "Poskok"
+  };
+
+  private final String[] itemDesc = {
+    "Najvisi vrh suve planine",
+    "Korito koje njace",
+    "Najlepsi pogled na Nis imate sa ove tacke",
+    "Odnosno kurvin grad",
+    "Najvisi vrh Evrope",
+    "Davno bejasmo tamo",
+    "Tu nas napade poskok",
+    "Alpinisticka tacka :D",
+    "Topla voda",
+    "Najvisi vrh srbije",
+    "Najvisi vrh SRBIJE!",
+    "zmija"
   };
 
   public PlacesFragment() {
@@ -48,8 +64,8 @@ public class PlacesFragment extends Fragment {
     // Inflate the layout for this fragment
 
     ArrayList<Place> arrayOfPlaces = new ArrayList<>();
-    for (int i = 0; i < 8; i++) {
-      arrayOfPlaces.add(i, new Place(itemname[i], "description"));
+    for (int i = 0; i < itemName.length; i++) {
+      arrayOfPlaces.add(i, new Place(itemName[i], itemDesc[i]));
     }
 
     PlacesAdapter adapter = new PlacesAdapter(this.getActivity(), arrayOfPlaces);
@@ -62,7 +78,7 @@ public class PlacesFragment extends Fragment {
       public void onItemClick(AdapterView<?> parent, View view,
                               int position, long id) {
         // TODO Auto-generated method stub
-        String selectedItem = itemname[position];
+        String selectedItem = itemName[position];
         Toast.makeText(getActivity(), selectedItem, Toast.LENGTH_SHORT).show();
 
       }

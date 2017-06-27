@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  android:gravity="bottom"
+  android:orientation="horizontal"
+  android:paddingBottom="@dimen/activity_vertical_margin"
+  android:paddingLeft="@dimen/activity_horizontal_margin"
+  android:paddingRight="@dimen/activity_horizontal_margin"
+  android:paddingTop="@dimen/activity_vertical_margin">
 
   <ImageView
     android:id="@+id/imageView"
@@ -9,7 +15,8 @@
     android:layout_height="wrap_content"
     android:layout_column="0"
     android:layout_row="0"
-    android:layout_rowSpan="2" />
+    android:layout_rowSpan="2"
+    android:paddingTop="@dimen/nav_header_vertical_spacing" />
 
   <TextView
     android:id="@+id/tvName"
@@ -18,6 +25,10 @@
     android:layout_column="1"
     android:layout_columnWeight="1"
     android:layout_row="0"
+    android:orientation="vertical"
+    android:textStyle="bold"
+    android:paddingLeft="16dp"
+    android:paddingTop="@dimen/nav_header_vertical_spacing"
     android:text="New Text" />
 
 
@@ -28,6 +39,9 @@
     android:layout_column="1"
     android:layout_columnWeight="1"
     android:layout_row="1"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingTop="@dimen/nav_header_vertical_spacing"
     android:text="New Text" />
 
 </GridLayout>

@@ -1,7 +1,5 @@
 package rs.elfak.miksa_mladen.peaktracktion.list_items;
 
-import android.widget.ArrayAdapter;
-
 import com.google.android.gms.maps.model.LatLng;
 
 /**
@@ -24,7 +22,7 @@ public class Place {
     this.imgURL = imgURL;
   }
 
-  public Place(String name, String description){
+  public Place(String name, String description) {
     this.name = name;
     this.description = description;
   }
