@@ -29,8 +29,7 @@
       android:layout_columnWeight="1"
       android:orientation="vertical"
       android:paddingLeft="16dp"
-      android:text="New Text"
-      android:textStyle="bold" />
+      android:text="New Text" />
 
     <TextView
       android:id="@+id/text_desc_place"
