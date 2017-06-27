@@ -33,9 +33,9 @@ public class PlacesAdapter extends ArrayAdapter<Place> {
     if (convertView == null) {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_places, parent, false);
     }
-    TextView textView_name = (TextView) convertView.findViewById(R.id.tvName);
-    TextView textView_desc = (TextView) convertView.findViewById(R.id.tvDesc);
-    ImageView imageView_image = (ImageView) convertView.findViewById(R.id.imageView);
+    TextView textView_name = (TextView) convertView.findViewById(R.id.text_name_place);
+    TextView textView_desc = (TextView) convertView.findViewById(R.id.text_desc_place);
+    ImageView imageView_image = (ImageView) convertView.findViewById(R.id.image_place);
 
     textView_name.setText(place.name);
     textView_name.setTypeface(null, Typeface.BOLD);

@@ -5,9 +5,9 @@
   tools:context="rs.elfak.miksa_mladen.peaktracktion.fragments.PeopleFragment">
 
   <!-- TODO: Update blank fragment layout -->
-  <TextView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:text="@string/hello_blank_fragment" />
 
+  <ListView
+    android:id="@+id/list_view_friends"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
 </FrameLayout>
