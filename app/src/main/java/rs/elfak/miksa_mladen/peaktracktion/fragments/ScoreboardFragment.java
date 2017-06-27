@@ -82,8 +82,8 @@ public class ScoreboardFragment extends Fragment {
   }
 
   private void sortPeople() {
-    for (int i = 0; i < people.size() - 2; i++) {
-      for (int j = i + 1; j < people.size() - 1; j++) {
+    for (int i = 0; i < people.size() - 1; i++) {
+      for (int j = i + 1; j < people.size(); j++) {
         if (people.get(i).obtainedPoints < people.get(j).obtainedPoints) {
           Collections.swap(people, i, j);
         }
