@@ -13,6 +13,7 @@ public class User {
   public Date dateOfBirth;
   public List<User> friendlist;
   public int obtainedPoints;
+  public String imgURL = "https://unsplash.it/200/?random";
   public List<Place> createdPlaces;
   public List<Place> visitedPlaces;
 

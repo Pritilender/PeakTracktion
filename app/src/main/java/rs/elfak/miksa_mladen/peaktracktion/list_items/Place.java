@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class Place {
   public String name;
   public String description;
-  public String imgURL;
+  public String imgURL = "https://unsplash.it/200/?random";
   public String creator;
   public String type;
   public LatLng coords;

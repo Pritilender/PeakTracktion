@@ -1,13 +1,15 @@
 package rs.elfak.miksa_mladen.peaktracktion.adapters;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -29,14 +31,19 @@ public class FriendListAdapter extends ArrayAdapter<User> {
     if (convertView == null) {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_friends, parent, false);
     }
-    TextView textView_info = (TextView) convertView.findViewById(R.id.text_details_friend);
-    ImageView imageView_image = (ImageView) convertView.findViewById(R.id.image_friend);
+    TextView tvName = (TextView) convertView.findViewById(R.id.text_name_friend);
+    TextView tvSurname = (TextView) convertView.findViewById(R.id.text_surname_friend);
+    TextView tvPoints = (TextView) convertView.findViewById(R.id.text_points_friend);
+    ImageView imageViewUserImage = (ImageView) convertView.findViewById(R.id.image_friend);
 
-    imageView_image.setImageResource(R.mipmap.ic_launcher);
-    //This may or may not work
-    textView_info.setText(Html.fromHtml(friend.firstName + " " +
-                                        friend.lastName + " " +
-                          "<i>" + "[" + friend.obtainedPoints + "]" + "</i>"));
+    tvName.setText(friend.firstName + " ");
+    tvSurname.setText(friend.lastName);
+    tvPoints.setText("" + friend.obtainedPoints);
+    Glide.with(getContext())
+      .load(friend.imgURL)
+      .apply(RequestOptions.circleCropTransform())
+      .into(imageViewUserImage);
+
 
     return convertView;
   }

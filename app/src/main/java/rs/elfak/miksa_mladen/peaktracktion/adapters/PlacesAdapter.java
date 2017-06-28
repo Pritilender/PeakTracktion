@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
@@ -33,14 +36,16 @@ public class PlacesAdapter extends ArrayAdapter<Place> {
     if (convertView == null) {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_places, parent, false);
     }
-    TextView textView_name = (TextView) convertView.findViewById(R.id.text_name_place);
-    TextView textView_desc = (TextView) convertView.findViewById(R.id.text_desc_place);
-    ImageView imageView_image = (ImageView) convertView.findViewById(R.id.image_place);
+    TextView tvName = (TextView) convertView.findViewById(R.id.text_name_place);
+    TextView tvDescription = (TextView) convertView.findViewById(R.id.text_desc_place);
+    ImageView imageViewPlaceImage = (ImageView) convertView.findViewById(R.id.image_place);
 
-    textView_name.setText(place.name);
-    textView_name.setTypeface(null, Typeface.BOLD);
-    textView_desc.setText(place.description);
-    imageView_image.setImageResource(R.mipmap.ic_launcher);
+    tvName.setText(place.name);
+    tvDescription.setText(place.description);
+    Glide.with(getContext())
+      .load(place.imgURL)
+      .apply(RequestOptions.circleCropTransform())
+      .into(imageViewPlaceImage);
 
     return convertView;
   }

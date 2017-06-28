@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
+  android:layout_height="96dp"
   android:gravity="center"
   android:orientation="horizontal"
   android:paddingBottom="@dimen/activity_vertical_margin"
@@ -12,8 +12,8 @@
 
   <ImageView
     android:id="@+id/image_place"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="64dp"
+    android:layout_height="64dp"
     app:srcCompat="@android:drawable/sym_def_app_icon" />
 
   <LinearLayout
@@ -29,7 +29,8 @@
       android:layout_columnWeight="1"
       android:orientation="vertical"
       android:paddingLeft="16dp"
-      android:text="New Text" />
+      android:text="New Text"
+      android:textStyle="bold" />
 
     <TextView
       android:id="@+id/text_desc_place"
@@ -38,8 +39,9 @@
       android:layout_columnWeight="1"
       android:orientation="vertical"
       android:paddingLeft="16dp"
-      android:paddingTop="@dimen/nav_header_vertical_spacing"
-      android:text="New Text" />
+      android:paddingTop="8dp"
+      android:text="New Text"
+      android:textStyle="italic" />
   </LinearLayout>
 
 </LinearLayout>
