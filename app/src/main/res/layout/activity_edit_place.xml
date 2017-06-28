@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:text="Naziv" />
+
+    <EditText
+      android:id="@+id/edit_view_name_place"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:inputType="text"
+      android:maxLines="1"
+      android:paddingLeft="15dp"
+      android:text="Ovde treba da se unese naziv mesta" />
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:text="Opis" />
+
+    <EditText
+      android:id="@+id/edit_view_description_place"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:inputType="textMultiLine"
+      android:paddingLeft="15dp"
+      android:text="Ovde treba da se unese opis i informacije o mestu koje sam opisao iznad i treba da ima podrsku za vise reda i to je u redu" />
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_vertical"
+      android:text="Tip" />
+
+    <Spinner
+      android:id="@+id/spinner_type_place"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:entries="@array/array_type_place" />
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="10dp">
+
+    <Button
+      android:id="@+id/button_add_picture_place"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:text="Add Picture" />
+
+    <ImageView
+      android:id="@+id/image_edit_place"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:paddingTop="10dp">
+
+    <Button
+      android:id="@+id/button_ok_editplace"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:text="OK" />
+
+    <Button
+      android:id="@+id/button_cancel_editplace"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:text="Cancel" />
+
+  </LinearLayout>
+</LinearLayout>

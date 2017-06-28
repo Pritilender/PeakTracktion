@@ -1,12 +1,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="rs.elfak.miksa_mladen.peaktracktion.fragments.MapFragment">
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="rs.elfak.miksa_mladen.peaktracktion.fragments.MapFragment">
 
   <com.google.android.gms.maps.MapView
     android:id="@+id/map"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+  <android.support.design.widget.FloatingActionButton
+    android:id="@+id/fab_newplace"
+    android:layout_width="56dp"
+    android:layout_height="56dp"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="@dimen/fab_margin" />
 
 </FrameLayout>

@@ -2,8 +2,10 @@ package rs.elfak.miksa_mladen.peaktracktion.fragments;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -23,6 +26,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
+import rs.elfak.miksa_mladen.peaktracktion.activities.EditPlaceActivity;
+import rs.elfak.miksa_mladen.peaktracktion.activities.MainActivity;
 
 public class MapFragment extends Fragment
   implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
@@ -32,7 +37,7 @@ public class MapFragment extends Fragment
   private MapView mMapView;
   private GoogleMap mMap;
   public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-
+  private FloatingActionButton fab;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,9 @@ public class MapFragment extends Fragment
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup cont, Bundle savedInstanceState) {
     View inflatedView = inflater.inflate(R.layout.fragment_map, cont, false);
+
+    fab = (FloatingActionButton) inflatedView.findViewById(R.id.fab_newplace);
+    fab.setImageResource(R.drawable.ic_add_black_24dp);
 
     try {
       MapsInitializer.initialize(getActivity());
@@ -57,8 +65,20 @@ public class MapFragment extends Fragment
       ((MapView) inflatedView.findViewById(R.id.map)).getMapAsync(this);
     }
 
-    return inflatedView;
 
+    fab.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        try {
+          Intent intent = new Intent(getActivity(), EditPlaceActivity.class);
+          startActivity(intent);
+        } catch (Exception e) {
+          Log.e("SOMETHING", e.getMessage());
+        }
+      }
+    });
+
+    return inflatedView;
   }
 
   @Override

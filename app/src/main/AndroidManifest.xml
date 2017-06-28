@@ -55,6 +55,9 @@
       </intent-filter>
     </activity>
 
+    <activity android:name=".activities.EditPlaceActivity"
+      android:theme="@style/AppTheme" />
+
   </application>
 
 </manifest>

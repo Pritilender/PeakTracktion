@@ -16,6 +16,10 @@ public class Place {
   public int points;
   public int timesVisited;
 
+  public Place() {
+
+  }
+
   public Place(String name, String description, String imgURL) {
     this.name = name;
     this.description = description;
