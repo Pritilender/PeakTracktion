@@ -6,10 +6,15 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -20,9 +25,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
@@ -36,10 +40,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
   private FirebaseAuth mAuth;
   private FirebaseAuth.AuthStateListener mAuthStateListener;
 
+  private LoginButton mLoginButton;
+
   // UI references
   private ProgressBar mProgressBar;
 
   private GoogleApiClient mGoogleApiClient;
+
+  private CallbackManager mCallbackManager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +70,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
       .enableAutoManage(this, this)
       .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
       .build();
+
+    // Setup Facebook Sign In
+    mLoginButton = (LoginButton) findViewById(R.id.button_login_facebook);
+    mLoginButton.setReadPermissions("email", "public_profile");
+    mLoginButton.setText("");
+
+    mCallbackManager = CallbackManager.Factory.create();
+    mLoginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+      @Override
+      public void onSuccess(LoginResult loginResult) {
+        singInFacebookWithAccessToken(loginResult.getAccessToken());
+      }
+
+      @Override
+      public void onCancel() {
+        // user canceled
+        // TODO handle
+      }
+
+      @Override
+      public void onError(FacebookException error) {
+        // error
+        // TODO handle
+      }
+    });
 
     // Setup Firebase
     mAuth = FirebaseAuth.getInstance();
@@ -110,6 +143,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
       } else {
         Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show();
       }
+    } else {
+      // pass it to FB manager
+      mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
   }
 
@@ -121,7 +157,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
           if (!task.isSuccessful()) {
-            Toast.makeText(LoginActivity.this, "Failed...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Auth with Google failed", Toast.LENGTH_SHORT).show();
             try {
               throw task.getException();
             } catch (Exception e) {
@@ -136,6 +172,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
   private void signInGoogleInit() {
     Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
     startActivityForResult(signInIntent, RC_SIGN_IN);
+  }
+
+  private void singInFacebookWithAccessToken(AccessToken token) {
+    mProgressBar.setVisibility(View.VISIBLE);
+    AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+    mAuth.signInWithCredential(credential)
+      .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        @Override
+        public void onComplete(@NonNull Task<AuthResult> task) {
+          if (!task.isSuccessful()) {
+            Toast.makeText(LoginActivity.this, "Authentication with FB failed.", Toast.LENGTH_SHORT).show();
+          }
+          mProgressBar.setVisibility(View.INVISIBLE);
+        }
+      });
   }
 
   private void goToMainActivity() {

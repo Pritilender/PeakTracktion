@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -153,6 +154,7 @@ public class MainActivity extends AppCompatActivity
     switch(id) {
       case R.id.button_sign_out:
         mAuth.signOut();
+        LoginManager.getInstance().logOut();
         finish();
         break;
       case R.id.button_user_name:
