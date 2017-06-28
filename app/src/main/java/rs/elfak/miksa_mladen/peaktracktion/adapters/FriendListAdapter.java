@@ -34,9 +34,7 @@ public class FriendListAdapter extends ArrayAdapter<User> {
 
     imageView_image.setImageResource(R.mipmap.ic_launcher);
     //This may or may not work
-    textView_info.setText(Html.fromHtml(friend.firstName + " " +
-                                        friend.lastName + " " +
-                          "<i>" + "[" + friend.obtainedPoints + "]" + "</i>"));
+    textView_info.setText(friend.name);
 
     return convertView;
   }

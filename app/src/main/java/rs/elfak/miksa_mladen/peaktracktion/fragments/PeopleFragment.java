@@ -63,7 +63,7 @@ public class PeopleFragment extends Fragment {
     // Inflate the layout for this fragment
     ArrayList<User> friends = new ArrayList<>();
     for (int i = 0; i < names.length; i++) {
-      friends.add(i, new User(names[i], surnames[i], points[i]));
+      friends.add(i, new User(names[i]));
     }
     FriendListAdapter adapter = new FriendListAdapter(this.getActivity(), friends);
 
