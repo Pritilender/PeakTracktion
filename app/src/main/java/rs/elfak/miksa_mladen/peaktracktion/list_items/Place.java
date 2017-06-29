@@ -2,11 +2,10 @@ package rs.elfak.miksa_mladen.peaktracktion.list_items;
 
 import com.google.android.gms.maps.model.LatLng;
 
-/**
- * Created by miksa on 25.6.17..
- */
+import java.util.UUID;
 
 public class Place {
+  public String placeId;
   public String name;
   public String description;
   public String imgURL = "https://unsplash.it/200/?random";

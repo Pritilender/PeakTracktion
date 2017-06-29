@@ -1,6 +1,7 @@
 package rs.elfak.miksa_mladen.peaktracktion.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,34 +17,31 @@ import java.util.ArrayList;
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
 
-/**
- * Created by miksa on 27.6.17..
- */
-
 public class FriendListAdapter extends ArrayAdapter<User> {
 
   public FriendListAdapter(Context context, ArrayList<User> friends) {
     super(context, 0, friends);
   }
 
+  @NonNull
+  @Override
   public View getView(int position, View convertView, ViewGroup parent) {
     User friend = getItem(position);
+
     if (convertView == null) {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_friends, parent, false);
     }
+
     TextView tvName = (TextView) convertView.findViewById(R.id.text_name_friend);
-    TextView tvSurname = (TextView) convertView.findViewById(R.id.text_surname_friend);
     TextView tvPoints = (TextView) convertView.findViewById(R.id.text_points_friend);
     ImageView imageViewUserImage = (ImageView) convertView.findViewById(R.id.image_friend);
 
-    tvName.setText(friend.firstName + " ");
-    tvSurname.setText(friend.lastName);
-    tvPoints.setText("" + friend.obtainedPoints);
+    tvName.setText(friend.name);
+    tvPoints.setText("" + friend.points);
     Glide.with(getContext())
-      .load(friend.imgURL)
+      .load(friend.imgUrl)
       .apply(RequestOptions.circleCropTransform())
       .into(imageViewUserImage);
-
 
     return convertView;
   }

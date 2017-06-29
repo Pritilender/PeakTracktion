@@ -23,29 +23,16 @@ public class PeopleFragment extends Fragment {
 
   private ListView list;
   private final String[] names = {
-    "Mitar",
-    "Boban",
-    "Ipce",
+    "Mitar Miric",
+    "Boban Zdravkovic",
+    "Ipce Ahmedovski",
     "Luis",
-    "Jasar",
-    "Zvonko",
-    "Mile",
-    "Bogdan",
-    "Zdravko",
-    "I naravno"
-  };
-
-  private final String[] surnames = {
-    "Miric",
-    "Zdravkovic",
-    "Ahmedovski",
-    "",
-    "Ahmedovski",
-    "Bogdan",
-    "Kitic",
-    "Zvonko",
-    "Colic",
-    "Dzej"
+    "Jasar Ahmedovski",
+    "Zvonko Demirovic",
+    "Mile Kitic",
+    "Bogdan Bogdanovic",
+    "Zdravko Colic",
+    "Dzej Ramadadadanovski"
   };
 
   private final int[] points = {
@@ -63,7 +50,7 @@ public class PeopleFragment extends Fragment {
     // Inflate the layout for this fragment
     ArrayList<User> friends = new ArrayList<>();
     for (int i = 0; i < names.length; i++) {
-      friends.add(i, new User(names[i], surnames[i], points[i]));
+      friends.add(i, new User(names[i]));
     }
     FriendListAdapter adapter = new FriendListAdapter(this.getActivity(), friends);
 
@@ -74,8 +61,7 @@ public class PeopleFragment extends Fragment {
       @Override
       public void onItemClick(AdapterView<?> parent, View view,
                               int position, long id) {
-        // TODO Auto-generated method stub
-        String selectedItem = names[position] + " " + surnames[position];
+        String selectedItem = names[position];
         Toast.makeText(getActivity(), selectedItem, Toast.LENGTH_SHORT).show();
       }
     });

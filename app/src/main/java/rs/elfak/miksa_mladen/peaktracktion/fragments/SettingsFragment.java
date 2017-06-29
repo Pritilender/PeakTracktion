@@ -14,7 +14,7 @@ import rs.elfak.miksa_mladen.peaktracktion.R;
  */
 public class SettingsFragment extends Fragment {
 
-
+  // TODO add service turn off/on
   public SettingsFragment() {
     // Required empty public constructor
   }

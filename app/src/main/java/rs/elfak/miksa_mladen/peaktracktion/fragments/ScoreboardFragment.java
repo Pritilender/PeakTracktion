@@ -61,7 +61,7 @@ public class ScoreboardFragment extends Fragment {
     // Inflate the layout for this fragment
     people = new ArrayList<>();
     for (int i = 0; i < names.length; i++) {
-      people.add(i, new User(names[i], surnames[i], ThreadLocalRandom.current().nextInt(0, 1000)));
+      people.add(i, new User(names[i]));
     }
     sortPeople();
     FriendListAdapter adapter = new FriendListAdapter(this.getActivity(), people);
@@ -82,13 +82,13 @@ public class ScoreboardFragment extends Fragment {
   }
 
   private void sortPeople() {
-    for (int i = 0; i < people.size() - 1; i++) {
-      for (int j = i + 1; j < people.size(); j++) {
-        if (people.get(i).obtainedPoints < people.get(j).obtainedPoints) {
-          Collections.swap(people, i, j);
-        }
-      }
-    }
+//    for (int i = 0; i < people.size() - 1; i++) {
+//      for (int j = i + 1; j < people.size(); j++) {
+//        if (people.get(i).obtainedPoints < people.get(j).obtainedPoints) {
+//          Collections.swap(people, i, j);
+//        }
+//      }
+//    }
   }
 
 
