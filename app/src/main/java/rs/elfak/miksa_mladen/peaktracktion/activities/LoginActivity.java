@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (user != null) {
           // user is signed in
           UserProvider.getInstance().addNewUser(user.getUid(), user.getDisplayName(), user.getEmail());
-          goToMainActivity();
+          finish();
         }
       }
     };
@@ -121,6 +121,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
   public void onStop() {
     super.onStop();
     mAuth.removeAuthStateListener(mAuthStateListener);
+  }
+
+  @Override
+  public void onBackPressed() {
+    moveTaskToBack(true);
   }
 
   @Override
@@ -188,11 +193,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
           mProgressBar.setVisibility(View.INVISIBLE);
         }
       });
-  }
-
-  private void goToMainActivity() {
-    Intent mainIntent = new Intent(this, MainActivity.class);
-    startActivity(mainIntent);
   }
 
   @Override

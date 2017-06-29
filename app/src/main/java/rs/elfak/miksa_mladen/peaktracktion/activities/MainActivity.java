@@ -9,12 +9,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -22,7 +22,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.AboutFragment;
@@ -31,7 +30,6 @@ import rs.elfak.miksa_mladen.peaktracktion.fragments.PeopleFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.PlacesFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.ScoreboardFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.SettingsFragment;
-import rs.elfak.miksa_mladen.peaktracktion.services.BackgroundLocationService;
 
 public class MainActivity extends AppCompatActivity
   implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -43,15 +41,9 @@ public class MainActivity extends AppCompatActivity
   private ImageView mUserPicture;
   private Button mUserName;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-
-    mAuth = FirebaseAuth.getInstance();
+  private void setupUI() {
     FirebaseUser user = mAuth.getCurrentUser();
 
-    // UI setup
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
 
@@ -78,6 +70,34 @@ public class MainActivity extends AppCompatActivity
       .apply(RequestOptions.circleCropTransform())
       .into(mUserPicture);
     headerView.findViewById(R.id.button_sign_out).setOnClickListener(this);
+  }
+
+  private void startLoginActivity() {
+    Intent mainIntent = new Intent(this, LoginActivity.class);
+    startActivity(mainIntent);
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    mAuth = FirebaseAuth.getInstance();
+
+    if (mAuth.getCurrentUser() == null) {
+      // no user, so let's login
+      startLoginActivity();
+    } else {
+      setupUI();
+    }
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (mAuth.getCurrentUser() != null) {
+      setupUI();
+    }
   }
 
   @Override
@@ -153,11 +173,11 @@ public class MainActivity extends AppCompatActivity
   public void onClick(View v) {
     int id = v.getId();
 
-    switch(id) {
+    switch (id) {
       case R.id.button_sign_out:
         mAuth.signOut();
         LoginManager.getInstance().logOut();
-        finish();
+        startLoginActivity();
         break;
       case R.id.button_user_name:
         Toast.makeText(this, "Should enter user info activity", Toast.LENGTH_SHORT).show();
