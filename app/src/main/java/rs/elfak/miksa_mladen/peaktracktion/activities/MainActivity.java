@@ -1,5 +1,6 @@
 package rs.elfak.miksa_mladen.peaktracktion.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,7 @@ import rs.elfak.miksa_mladen.peaktracktion.fragments.PeopleFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.PlacesFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.ScoreboardFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.SettingsFragment;
+import rs.elfak.miksa_mladen.peaktracktion.services.BackgroundLocationService;
 
 public class MainActivity extends AppCompatActivity
   implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {

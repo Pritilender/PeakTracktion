@@ -1,5 +1,6 @@
-package providers;
+package rs.elfak.miksa_mladen.peaktracktion.providers;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -26,6 +27,11 @@ public class UserProvider {
   public void addNewUser(String uid, String name, String email) {
     mUser = new User(uid, name, email);
     mDatabase.child("users").child(mUser.userId).setValue(mUser);
+  }
+
+  public void changeLocation(double latitude, double longitude) {
+    mUser.location = new LatLng(latitude, longitude);
+    mDatabase.child("users").child(mUser.userId).child("location").setValue(mUser.location);
   }
 
   public void createPlace(Place place) {

@@ -2,6 +2,7 @@ package rs.elfak.miksa_mladen.peaktracktion.fragments;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
+import rs.elfak.miksa_mladen.peaktracktion.services.BackgroundLocationService;
 
 public class MapFragment extends Fragment
   implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
@@ -129,6 +131,8 @@ public class MapFragment extends Fragment
       }
     } else {
       mMap.setMyLocationEnabled(true);
+      Intent intent = new Intent(getActivity(), BackgroundLocationService.class);
+      getActivity().startService(intent);
     }
   }
 
@@ -142,6 +146,8 @@ public class MapFragment extends Fragment
           if (ContextCompat.checkSelfPermission(this.getActivity(), locationPermission)
             == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+            Intent intent = new Intent(getActivity(), BackgroundLocationService.class);
+            getActivity().startService(intent);
           }
         }
       }
