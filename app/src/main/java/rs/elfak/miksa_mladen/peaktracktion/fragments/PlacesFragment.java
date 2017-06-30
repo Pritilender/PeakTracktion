@@ -1,8 +1,10 @@
 package rs.elfak.miksa_mladen.peaktracktion.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
+import rs.elfak.miksa_mladen.peaktracktion.activities.EditPlaceActivity;
 import rs.elfak.miksa_mladen.peaktracktion.adapters.PlacesAdapter;
 import rs.elfak.miksa_mladen.peaktracktion.list_items.Place;
 
@@ -77,6 +80,14 @@ public class PlacesFragment extends Fragment {
       @Override
       public void onItemClick(AdapterView<?> parent, View view,
                               int position, long id) {
+        //TODO send place id as parameter
+//        try {
+//          Intent intent = new Intent(getActivity(), EditPlaceActivity.class);
+//          intent.putExtra("titleBar", getString(R.string.title_activity_new_place));
+//          startActivity(intent);
+//        } catch (Exception e) {
+//          Log.e("SOMETHING", e.getMessage());
+//        }
         // TODO Auto-generated method stub
         String selectedItem = itemName[position];
         Toast.makeText(getActivity(), selectedItem, Toast.LENGTH_SHORT).show();

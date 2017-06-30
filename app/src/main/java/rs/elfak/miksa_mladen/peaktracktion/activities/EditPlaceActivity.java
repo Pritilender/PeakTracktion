@@ -1,20 +1,36 @@
 package rs.elfak.miksa_mladen.peaktracktion.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.list_items.Place;
 
 public class EditPlaceActivity extends AppCompatActivity implements View.OnClickListener {
-
+  static final int REQUEST_IMAGE_CAPTURE = 1;
   private EditText name;
   private EditText description;
   private Spinner fidget;
+  private String mPhotoPath;
+  private ImageView imagePlace;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -23,9 +39,28 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
     name = (EditText) findViewById(R.id.edit_view_name_place);
     description = (EditText) findViewById(R.id.edit_view_description_place);
     fidget = (Spinner) findViewById(R.id.spinner_type_place);
+    imagePlace = (ImageView) findViewById(R.id.image_edit_place);
+
     findViewById(R.id.button_ok_editplace).setOnClickListener(this);
-    findViewById(R.id.button_cancel_editplace).setOnClickListener(this);;
-    findViewById(R.id.button_add_picture_place).setOnClickListener(this);;
+    findViewById(R.id.button_cancel_editplace).setOnClickListener(this);
+    findViewById(R.id.button_picture).setOnClickListener(this);
+
+    String temp = getIntent().getStringExtra("titleBar");
+    ActionBar header = getSupportActionBar();
+    header.setTitle(temp);
+    header.setDisplayHomeAsUpEnabled(true);
+    if (!temp.equals(getString(R.string.title_activity_new_place))) {
+
+    }
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+      Glide.with(this)
+        .load(mPhotoPath)
+        .into(imagePlace);
+    }
   }
 
   @Override
@@ -36,10 +71,26 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
         break;
       case R.id.button_ok_editplace:
         savePlace();
+        finish();
         break;
-      case R.id.button_add_picture_place:
-        Toast.makeText(this, "Opens to select / take picture", Toast.LENGTH_SHORT).show();
+      case R.id.button_picture:
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+          File photoFile = null;
+          try {
+            photoFile = createImageFile();
+          } catch (IOException ex) {
+            Log.e("IMAGE", ex.getMessage());
+          }
+          if (photoFile != null) {
+            Uri photoUri = FileProvider.getUriForFile(this, "rs.elfak.miksa_mladen.peaktracktion.fileprovider", photoFile);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+          }
+        }
         break;
+      case android.R.id.home:
+        this.finish();
     }
   }
 
@@ -51,5 +102,12 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
     return true;
   }
 
-
+  private File createImageFile() throws IOException {
+    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+    String imageFileName = "JPEG_" + timeStamp + "_";
+    File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+    File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+    mPhotoPath = image.getAbsolutePath();
+    return image;
+  }
 }
