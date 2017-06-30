@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -50,10 +52,15 @@ public class MainActivity extends AppCompatActivity
     if (user == null) {
       startLoginActivity();
     } else {
+      findViewById(R.id.progress_user_fetch).setVisibility(View.VISIBLE);
+      findViewById(R.id.layout_colored).setVisibility(View.VISIBLE);
+
       mUserName = (Button) mHeaderView.findViewById(R.id.button_user_name);
       mUserPicture = (ImageView) mHeaderView.findViewById(R.id.image_user);
       mUserName.setOnClickListener(this);
       mHeaderView.findViewById(R.id.button_sign_out).setOnClickListener(this);
+
+      getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
       UserProvider.getInstance().populateUser(user.getUid())
         .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -65,6 +72,9 @@ public class MainActivity extends AppCompatActivity
               .load(u.imgUrl)
               .apply(RequestOptions.circleCropTransform())
               .into(mUserPicture);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            findViewById(R.id.progress_user_fetch).setVisibility(View.GONE);
+            findViewById(R.id.layout_colored).setVisibility(View.GONE);
           }
           @Override
           public void onCancelled(DatabaseError databaseError) {
@@ -108,7 +118,6 @@ public class MainActivity extends AppCompatActivity
   @Override
   protected void onStart() {
     super.onStart();
-    Log.d("AUTH", "On start");
     setupUI(mAuth.getCurrentUser());
   }
 

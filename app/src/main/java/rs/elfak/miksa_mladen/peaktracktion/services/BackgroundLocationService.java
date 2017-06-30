@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import rs.elfak.miksa_mladen.peaktracktion.utils.Coordinates;
 
 public class BackgroundLocationService extends Service {
-  private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+  private FirebaseAuth mAuth = FirebaseAuth.getInstance();
   private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
   private class BackgroundLocationListener implements LocationListener {
@@ -28,10 +28,11 @@ public class BackgroundLocationService extends Service {
 
     public void setLastLocation(Location newLoc) {
       mLastLocation = newLoc;
-      if (mUser != null) {
+      FirebaseUser user = mAuth.getCurrentUser();
+      if (user != null) {
         try {
           Coordinates newLocation = new Coordinates(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-          mDatabase.child("users").child(mUser.getUid()).child("location")
+          mDatabase.child("users").child(user.getUid()).child("location")
             .setValue(newLocation);
         } catch (Exception e) {
           Log.e("EXC", e.getMessage());
@@ -112,6 +113,8 @@ public class BackgroundLocationService extends Service {
     } catch (IllegalArgumentException ex) {
       Log.e("GPS", "gps provider does not exist " + ex.getMessage());
     }
+
+    mAuth = FirebaseAuth.getInstance();
   }
 
   @Override

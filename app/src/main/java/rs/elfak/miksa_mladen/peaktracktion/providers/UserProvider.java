@@ -39,10 +39,6 @@ public class UserProvider {
     return mInstance;
   }
 
-  public void setupUser(User user) {
-    mUser = user;
-  }
-
   private UserProvider() {
     // private constructor for singleton
   }
@@ -51,9 +47,8 @@ public class UserProvider {
     return mDatabase.child("users").child(uid);
   }
 
-  public UploadTask saveUserImage(Uri file) {
+  private UploadTask saveUserImage(Uri file) {
     StorageReference userProfileRef = mImages.child("images").child("users");
-
     return userProfileRef.putFile(file);
   }
 
