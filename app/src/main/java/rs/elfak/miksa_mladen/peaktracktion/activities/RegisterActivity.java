@@ -1,10 +1,7 @@
 package rs.elfak.miksa_mladen.peaktracktion.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -36,7 +32,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import rs.elfak.miksa_mladen.peaktracktion.Manifest;
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.providers.UserProvider;
 import rs.elfak.miksa_mladen.peaktracktion.utils.Validator;
@@ -71,8 +66,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     mProgressBar = (ProgressBar) findViewById(R.id.progress_register);
     etEmail = (EditText) findViewById(R.id.et_email);
     etPassword = (EditText) findViewById(R.id.et_password);
-    etDisplayName = (EditText) findViewById(R.id.et_display_name);
-    etFullName = (EditText) findViewById(R.id.et_full_name);
+    etDisplayName = (EditText) findViewById(R.id.user_info_display_name);
+    etFullName = (EditText) findViewById(R.id.user_info_full_name);
     etPhone = (EditText) findViewById(R.id.et_phone);
     imageProfilePic = (ImageView) findViewById(R.id.image_profile_pic);
 
@@ -132,7 +127,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
           takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
           startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
-        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
       }
     }
   }

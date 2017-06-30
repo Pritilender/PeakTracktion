@@ -1,29 +1,20 @@
 package rs.elfak.miksa_mladen.peaktracktion.providers;
 
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 
-import rs.elfak.miksa_mladen.peaktracktion.list_items.Place;
 import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
-import rs.elfak.miksa_mladen.peaktracktion.utils.Coordinates;
 
 public class UserProvider {
   private User mUser;
@@ -43,11 +34,15 @@ public class UserProvider {
     // private constructor for singleton
   }
 
-  public DatabaseReference populateUser(String uid) {
+  public DatabaseReference getUser(String uid) {
     return mDatabase.child("users").child(uid);
   }
 
-  private UploadTask saveUserImage(Uri file) {
+  public void setUser(User user) {
+    mUser = user;
+  }
+
+  public UploadTask saveUserImage(Uri file) {
     StorageReference userProfileRef = mImages.child("images").child("users");
     return userProfileRef.putFile(file);
   }
@@ -76,21 +71,8 @@ public class UserProvider {
       });
   }
 
-  public void changeLocation(double latitude, double longitude) {
-    mUser.location = new Coordinates(latitude, longitude);
-    mDatabase.child("users").child(mUser.userId).child("location").setValue(mUser.location);
-  }
-
-  public void createPlace(Place place) {
-    place.placeId = mDatabase.child("users").child(mUser.userId).child("createdPlaces")
-      .push()
-      .getKey();
-    mDatabase.child("places").child(place.placeId)
-      .setValue(place);
-    mUser.createdPlaces.add(place.placeId);
-  }
-
-  public void visitPlace(Place place) {
-    mUser.visitedPlaces.add(place.placeId);
+  public void updateUser(User updated) {
+    mUser = updated;
+    mDatabase.child("users").child(mUser.userId).setValue(mUser);
   }
 }
