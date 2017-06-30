@@ -12,13 +12,12 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import rs.elfak.miksa_mladen.peaktracktion.providers.UserProvider;
+import rs.elfak.miksa_mladen.peaktracktion.utils.Coordinates;
 
 public class BackgroundLocationService extends Service {
   private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -26,11 +25,12 @@ public class BackgroundLocationService extends Service {
 
   private class BackgroundLocationListener implements LocationListener {
     private Location mLastLocation;
+
     public void setLastLocation(Location newLoc) {
       mLastLocation = newLoc;
       if (mUser != null) {
         try {
-          LatLng newLocation = new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+          Coordinates newLocation = new Coordinates(mLastLocation.getLatitude(), mLastLocation.getLongitude());
           mDatabase.child("users").child(mUser.getUid()).child("location")
             .setValue(newLocation);
         } catch (Exception e) {

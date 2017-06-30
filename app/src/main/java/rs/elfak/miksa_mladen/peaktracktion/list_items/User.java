@@ -1,31 +1,37 @@
 package rs.elfak.miksa_mladen.peaktracktion.list_items;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+
+import rs.elfak.miksa_mladen.peaktracktion.utils.Coordinates;
 
 public class User {
   public String userId;
-  public String name;
+  public String fullName;
+  public String displayName;
   public String email;
-  public LatLng location = new LatLng(0, 0);;
+  public String phone;
+  public Coordinates location = new Coordinates(0, 0);
   public int points = 0;
   public String imgUrl = "https://unsplash.it/200/?random";
   public ArrayList<String> createdPlaces = new ArrayList<>();
   public ArrayList<String> visitedPlaces = new ArrayList<>();
   public ArrayList<String> friends = new ArrayList<>();
 
-  public User(String name) {
-    this.name = name;
-    this.email = name + "@friend.com";
+  public User() {
+    // for .class()
   }
 
-  public User(String id, String name, String email) {
+  public User(String fullName) {
+    this.fullName = fullName;
+    this.email = fullName + "@friend.com";
+  }
+
+  public User(String id, String fullName, String displayName, String email, String phone, String imageUrl) {
     this.userId = id;
-    this.name = name;
+    this.fullName = fullName;
+    this.displayName = displayName;
     this.email = email;
+    this.phone = phone;
+    this.imgUrl = imageUrl;
   }
 }

@@ -1,8 +1,8 @@
 package rs.elfak.miksa_mladen.peaktracktion.list_items;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.UUID;
+
+import rs.elfak.miksa_mladen.peaktracktion.utils.Coordinates;
 
 public class Place {
   public String placeId;
@@ -11,7 +11,7 @@ public class Place {
   public String imgURL = "https://unsplash.it/200/?random";
   public String creator;
   public String type;
-  public LatLng coords;
+  public Coordinates coords;
   public int points;
   public int timesVisited;
 

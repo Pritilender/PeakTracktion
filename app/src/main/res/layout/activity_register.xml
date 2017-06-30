@@ -1,0 +1,121 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="rs.elfak.miksa_mladen.peaktracktion.activities.RegisterActivity">
+
+  <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ProgressBar
+      android:id="@+id/progress_register"
+      style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:indeterminate="true"
+      android:visibility="invisible" />
+
+    <LinearLayout
+      android:id="@+id/layout_info_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/progress_auth"
+      android:orientation="vertical"
+      android:paddingLeft="@dimen/activity_horizontal_margin"
+      android:paddingRight="@dimen/activity_horizontal_margin"
+      android:paddingTop="@dimen/activity_vertical_margin">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_register_info"
+        android:textSize="10pt" />
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:id="@+id/layout_buttons"
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/layout_info_text"
+      android:gravity="center"
+      android:orientation="vertical"
+      android:padding="@dimen/activity_horizontal_margin">
+
+      <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:hint="@string/hint_email"
+        android:inputType="textEmailAddress" />
+
+      <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:hint="@string/hint_password"
+        android:inputType="textPassword" />
+
+      <EditText
+        android:id="@+id/et_display_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:hint="@string/hint_display_name"
+        android:inputType="text" />
+
+      <EditText
+        android:id="@+id/et_full_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:hint="@string/hint_full_name"
+        android:inputType="text" />
+
+      <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:hint="@string/hint_phone"
+        android:inputType="number" />
+
+      <LinearLayout
+        android:id="@+id/layout_image"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_info_text"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <ImageView
+          android:id="@+id/image_profile_pic"
+          android:layout_width="96dp"
+          android:layout_height="96dp" />
+
+        <Button
+          android:id="@+id/button_picture"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:drawableLeft="@android:drawable/ic_menu_camera"
+          android:text="@string/text_take_picture" />
+
+      </LinearLayout>
+
+      <Button
+        android:id="@+id/button_register_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_register_user" />
+
+    </LinearLayout>
+
+  </RelativeLayout>
+</ScrollView>
+

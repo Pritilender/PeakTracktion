@@ -36,7 +36,7 @@ public class FriendListAdapter extends ArrayAdapter<User> {
     TextView tvPoints = (TextView) convertView.findViewById(R.id.text_points_friend);
     ImageView imageViewUserImage = (ImageView) convertView.findViewById(R.id.image_friend);
 
-    tvName.setText(friend.name);
+    tvName.setText(friend.fullName);
     tvPoints.setText("" + friend.points);
     Glide.with(getContext())
       .load(friend.imgUrl)

@@ -10,9 +10,6 @@
   <string name="settings">Podešavanja</string>
   <string name="about">O aplikaciji</string>
 
-  <string name="facebook_app_id">1682303098746163</string>
-  <string name="fb_login_protocol_scheme">fb1682303098746163</string>
-
   <string name="location_permission_title">Upozorenje!</string>
   <string name="location_permission_text">Kako biste iskusili aplikaciju onako kako je i namenjena dozvolite aplikaciji da pristupi lokaciji uredjaja.</string>
 
@@ -30,6 +27,17 @@
 
   <!--Auth-->
   <string name="text_hi">Zdravo i dobrodošao!</string>
-  <string name="text_info">Da bi mogao da koristiš PeakTracktion aplikaciju, molim te
-    da se uloguješ preko nekog od ponuđenih servisa.</string>
+  <string name="text_info">Da bi mogao da koristiš PeakTracktion aplikaciju, moraš biti prijavljen:</string>
+  <string name="text_sign_in">Uloguj se</string>
+  <string name="text_forgot_password">Zaboravio sam lozinku</string>
+  <string name="text_register">Napravi nalog</string>
+  <string name="hint_email">email</string>
+  <string name="hint_password">lozinka</string>
+  <string name="hint_phone">telefon</string>
+  <string name="hint_full_name">puno ime</string>
+  <string name="text_take_picture">slikaj se</string>
+  <string name="hint_display_name">ime za prikaz</string>
+  <string name="title_register">Registruj se</string>
+  <string name="text_register_info">Kako bi se registrovao, potrebno je da popuniš sva polja i dodaš svoju sliku</string>
+  <string name="text_register_user">Registruj se</string>
 </resources>

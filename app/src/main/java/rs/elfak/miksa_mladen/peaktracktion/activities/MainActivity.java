@@ -19,9 +19,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.AboutFragment;
@@ -30,6 +32,8 @@ import rs.elfak.miksa_mladen.peaktracktion.fragments.PeopleFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.PlacesFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.ScoreboardFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.SettingsFragment;
+import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
+import rs.elfak.miksa_mladen.peaktracktion.providers.UserProvider;
 
 public class MainActivity extends AppCompatActivity
   implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -40,9 +44,45 @@ public class MainActivity extends AppCompatActivity
   // UI references
   private ImageView mUserPicture;
   private Button mUserName;
+  private View mHeaderView;
 
-  private void setupUI() {
-    FirebaseUser user = mAuth.getCurrentUser();
+  private void setupUI(FirebaseUser user) {
+    if (user == null) {
+      startLoginActivity();
+    } else {
+      mUserName = (Button) mHeaderView.findViewById(R.id.button_user_name);
+      mUserPicture = (ImageView) mHeaderView.findViewById(R.id.image_user);
+      mUserName.setOnClickListener(this);
+      mHeaderView.findViewById(R.id.button_sign_out).setOnClickListener(this);
+
+      UserProvider.getInstance().populateUser(user.getUid())
+        .addListenerForSingleValueEvent(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+            User u = dataSnapshot.getValue(User.class);
+            mUserName.setText(u.displayName);
+            Glide.with(mHeaderView)
+              .load(u.imgUrl)
+              .apply(RequestOptions.circleCropTransform())
+              .into(mUserPicture);
+          }
+          @Override
+          public void onCancelled(DatabaseError databaseError) {
+            Log.d("DATABASE", "On canceled: " + databaseError.toString());
+          }
+        });
+    }
+  }
+
+  private void startLoginActivity() {
+    Intent mainIntent = new Intent(this, LoginActivity.class);
+    startActivity(mainIntent);
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
 
     Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
@@ -60,44 +100,16 @@ public class MainActivity extends AppCompatActivity
     navigationView.setCheckedItem(R.id.nav_map);
 
     // Header setup
-    View headerView = navigationView.getHeaderView(0);
-    mUserName = (Button) headerView.findViewById(R.id.button_user_name);
-    mUserPicture = (ImageView) headerView.findViewById(R.id.image_user);
-    mUserName.setText(user.getDisplayName());
-    mUserName.setOnClickListener(this);
-    Glide.with(headerView)
-      .load(user.getPhotoUrl())
-      .apply(RequestOptions.circleCropTransform())
-      .into(mUserPicture);
-    headerView.findViewById(R.id.button_sign_out).setOnClickListener(this);
-  }
-
-  private void startLoginActivity() {
-    Intent mainIntent = new Intent(this, LoginActivity.class);
-    startActivity(mainIntent);
-  }
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    mHeaderView = navigationView.getHeaderView(0);
 
     mAuth = FirebaseAuth.getInstance();
-
-    if (mAuth.getCurrentUser() == null) {
-      // no user, so let's login
-      startLoginActivity();
-    } else {
-      setupUI();
-    }
   }
 
   @Override
-  protected void onResume() {
-    super.onResume();
-    if (mAuth.getCurrentUser() != null) {
-      setupUI();
-    }
+  protected void onStart() {
+    super.onStart();
+    Log.d("AUTH", "On start");
+    setupUI(mAuth.getCurrentUser());
   }
 
   @Override
@@ -176,7 +188,6 @@ public class MainActivity extends AppCompatActivity
     switch (id) {
       case R.id.button_sign_out:
         mAuth.signOut();
-        LoginManager.getInstance().logOut();
         startLoginActivity();
         break;
       case R.id.button_user_name:
