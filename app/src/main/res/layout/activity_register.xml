@@ -62,7 +62,7 @@
         android:inputType="textPassword" />
 
       <EditText
-        android:id="@+id/et_display_name"
+        android:id="@+id/user_info_display_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -70,7 +70,7 @@
         android:inputType="text" />
 
       <EditText
-        android:id="@+id/et_full_name"
+        android:id="@+id/user_info_full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -62,11 +61,12 @@ public class MainActivity extends AppCompatActivity
 
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-      UserProvider.getInstance().populateUser(user.getUid())
+      UserProvider.getInstance().getUser(user.getUid())
         .addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             User u = dataSnapshot.getValue(User.class);
+            UserProvider.getInstance().setUser(u);
             mUserName.setText(u.displayName);
             Glide.with(mHeaderView)
               .load(u.imgUrl)
@@ -118,6 +118,12 @@ public class MainActivity extends AppCompatActivity
   @Override
   protected void onStart() {
     super.onStart();
+    setupUI(mAuth.getCurrentUser());
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
     setupUI(mAuth.getCurrentUser());
   }
 
@@ -200,7 +206,10 @@ public class MainActivity extends AppCompatActivity
         startLoginActivity();
         break;
       case R.id.button_user_name:
-        Toast.makeText(this, "Should enter user info activity", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, UserInfoActivity.class);
+        i.putExtra(UserInfoActivity.DISPLAY_ME, true);
+        i.putExtra(UserInfoActivity.USER_ID, mAuth.getCurrentUser().getUid());
+        startActivity(i);
         break;
     }
   }
