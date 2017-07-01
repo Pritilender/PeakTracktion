@@ -1,4 +1,4 @@
-package rs.elfak.miksa_mladen.peaktracktion.list_items;
+package rs.elfak.miksa_mladen.peaktracktion.models;
 
 import java.util.ArrayList;
 

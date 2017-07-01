@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
-import rs.elfak.miksa_mladen.peaktracktion.list_items.Place;
+import rs.elfak.miksa_mladen.peaktracktion.models.Place;
 
 public class EditPlaceActivity extends AppCompatActivity implements View.OnClickListener {
   static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -36,14 +36,14 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_edit_place);
-    name = (EditText) findViewById(R.id.edit_view_name_place);
-    description = (EditText) findViewById(R.id.edit_view_description_place);
-    fidget = (Spinner) findViewById(R.id.spinner_type_place);
-    imagePlace = (ImageView) findViewById(R.id.image_edit_place);
+    name = (EditText) findViewById(R.id.edit_place_name);
+    description = (EditText) findViewById(R.id.edit_place_description);
+    fidget = (Spinner) findViewById(R.id.edit_place_type_spinner);
+    imagePlace = (ImageView) findViewById(R.id.view_place_image);
 
-    findViewById(R.id.button_ok_editplace).setOnClickListener(this);
-    findViewById(R.id.button_cancel_editplace).setOnClickListener(this);
-    findViewById(R.id.button_picture).setOnClickListener(this);
+    findViewById(R.id.edit_place_OK).setOnClickListener(this);
+    findViewById(R.id.edit_place_cancel).setOnClickListener(this);
+    findViewById(R.id.edit_place_add_picture).setOnClickListener(this);
 
     String temp = getIntent().getStringExtra("titleBar");
     ActionBar header = getSupportActionBar();
@@ -66,14 +66,14 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
-      case R.id.button_cancel_editplace:
+      case R.id.edit_place_cancel:
         finish();
         break;
-      case R.id.button_ok_editplace:
+      case R.id.edit_place_OK:
         savePlace();
         finish();
         break;
-      case R.id.button_picture:
+      case R.id.edit_place_add_picture:
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
           File photoFile = null;

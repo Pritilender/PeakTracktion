@@ -1,10 +1,8 @@
 package rs.elfak.miksa_mladen.peaktracktion.fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +13,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
-import rs.elfak.miksa_mladen.peaktracktion.activities.EditPlaceActivity;
 import rs.elfak.miksa_mladen.peaktracktion.adapters.PlacesAdapter;
-import rs.elfak.miksa_mladen.peaktracktion.list_items.Place;
+import rs.elfak.miksa_mladen.peaktracktion.models.Place;
 
 /**
  * A simple {@link Fragment} subclass.

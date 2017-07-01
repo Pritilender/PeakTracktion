@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.adapters.FriendListAdapter;
-import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
+import rs.elfak.miksa_mladen.peaktracktion.models.User;
 
 /**
  * A simple {@link Fragment} subclass.

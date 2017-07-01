@@ -1,6 +1,4 @@
-package rs.elfak.miksa_mladen.peaktracktion.list_items;
-
-import java.util.UUID;
+package rs.elfak.miksa_mladen.peaktracktion.models;
 
 import rs.elfak.miksa_mladen.peaktracktion.utils.Coordinates;
 

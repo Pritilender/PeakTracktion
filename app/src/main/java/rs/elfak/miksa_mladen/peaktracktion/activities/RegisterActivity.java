@@ -1,10 +1,7 @@
 package rs.elfak.miksa_mladen.peaktracktion.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -36,7 +32,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import rs.elfak.miksa_mladen.peaktracktion.Manifest;
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.providers.UserProvider;
 import rs.elfak.miksa_mladen.peaktracktion.utils.Validator;
@@ -77,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     imageProfilePic = (ImageView) findViewById(R.id.image_profile_pic);
 
     // Setup listeners
-    findViewById(R.id.button_picture).setOnClickListener(this);
+    findViewById(R.id.edit_place_add_picture).setOnClickListener(this);
     findViewById(R.id.button_register_user).setOnClickListener(this);
 
     // Setup Firebase
@@ -118,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Validator.validatePicture(imageProfilePic)) {
         registerUser();
       }
-    } else if (id == R.id.button_picture) {
+    } else if (id == R.id.edit_place_add_picture) {
       Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
       if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
         File photoFile = null;

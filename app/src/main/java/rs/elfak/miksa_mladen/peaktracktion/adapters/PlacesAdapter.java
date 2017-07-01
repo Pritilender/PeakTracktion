@@ -1,7 +1,6 @@
 package rs.elfak.miksa_mladen.peaktracktion.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,7 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
-import rs.elfak.miksa_mladen.peaktracktion.list_items.Place;
+import rs.elfak.miksa_mladen.peaktracktion.models.Place;
 
 /**
  * Created by miksa on 25.6.17..
