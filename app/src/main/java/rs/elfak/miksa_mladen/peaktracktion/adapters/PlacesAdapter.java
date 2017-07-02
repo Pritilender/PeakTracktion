@@ -1,6 +1,7 @@
 package rs.elfak.miksa_mladen.peaktracktion.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
+import rs.elfak.miksa_mladen.peaktracktion.activities.ViewPlaceActivity;
 import rs.elfak.miksa_mladen.peaktracktion.list_items.PlaceViewHolder;
 import rs.elfak.miksa_mladen.peaktracktion.models.Place;
 import rs.elfak.miksa_mladen.peaktracktion.models.User;
@@ -98,7 +100,9 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlaceViewHolder> {
       @Override
       public void onClick(View v) {
         int ind = ((RecyclerView)v.getParent()).getChildLayoutPosition(v);
-        Toast.makeText(mContext, "Clicked on place " + mPlaces.get(ind).name, Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(mContext, ViewPlaceActivity.class);
+        i.putExtra("PLACE_ID", mPlaces.get(ind).placeId);
+        mContext.startActivity(i);
       }
     });
     return new PlaceViewHolder(view);

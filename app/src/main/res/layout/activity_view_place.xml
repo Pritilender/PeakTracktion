@@ -1,64 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:layout_marginLeft="@dimen/activity_vertical_margin">
+  android:layout_height="match_parent"
+  android:layout_margin="@dimen/activity_vertical_margin"
+  android:gravity="center"
+  android:orientation="horizontal">
 
-  <ImageView
-    android:id="@+id/view_place_image"
+  <ProgressBar
+    android:id="@+id/view_place_progress"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentTop="true"
-    android:src="@android:drawable/bottom_bar" />
+    android:layout_height="match_parent" />
 
-  <TextView
-    android:id="@+id/view_place_name"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignBottom="@id/view_place_image"
-    android:layout_alignStart="@id/view_place_image"
-    android:layout_gravity="center_vertical"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
-    android:paddingEnd="8dp"
-    android:paddingStart="8dp"
-    android:text="Place name goes here" />
-
-  <ImageButton
-    android:id="@+id/activity_view_place_favorite_btn"
-    style="@style/Base.Widget.AppCompat.Button.Borderless"
-    android:layout_width="32dp"
-    android:layout_height="32dp"
-    android:layout_alignEnd="@id/view_place_image"
-    android:layout_alignTop="@id/view_place_image"
-    android:src="@drawable/ic_favorite_border_black_24px"
-    android:tint="@color/colorAccent" />
-
-  <TextView
-    android:id="@+id/view_place_description"
+  <android.support.v7.widget.CardView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/view_place_image"
-    android:layout_gravity="center_vertical"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
-    android:layout_marginTop="@dimen/activity_vertical_margin"
-    android:text="Opis takvog mesta Mesta i neka je u vise reda" />
+    android:layout_height="match_parent"
+    app:cardBackgroundColor="#ffffff"
+    app:cardCornerRadius="16dp">
 
-  <TextView
-    android:id="@+id/view_place_text_type"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_below="@id/view_place_description"
-    android:layout_gravity="center_vertical"
-    android:text="@string/tip" />
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
 
-  <TextView
-    android:layout_marginLeft="8dp"
-    android:id="@+id/view_place_type"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignTop="@id/view_place_text_type"
-    android:layout_toRightOf="@id/view_place_text_type"
-    android:text="Ovde ide tip mesta" />
+      <ImageView
+        android:id="@+id/view_place_image"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_alignParentTop="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="fitXY"
+        app:srcCompat="@android:drawable/sym_def_app_icon" />
 
-</RelativeLayout>
+      <ImageButton
+        android:id="@+id/view_place_favorite_btn"
+        android:layout_width="42dp"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="8dp"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:tint="@color/colorAccent"
+        android:src="@drawable/ic_favorite_black_24px" />
+
+      <TextView
+        android:id="@+id/view_place_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/view_place_image"
+        android:layout_alignStart="@id/view_place_image"
+        android:layout_columnWeight="1"
+        android:background="#20000000"
+        android:paddingBottom="8dp"
+        android:paddingStart="8dp"
+        android:text="Place type"
+        android:textColor="#FEFEFE"
+        android:textSize="10dp"
+        android:textStyle="bold|italic" />
+
+      <TextView
+        android:id="@+id/view_place_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/view_place_type"
+        android:layout_columnWeight="1"
+        android:background="#19000000"
+        android:paddingBottom="4dp"
+        android:paddingStart="8dp"
+        android:text="Place name goes here"
+        android:textColor="#FEFEFE"
+        android:textStyle="bold" />
+
+      <TextView
+        android:id="@+id/view_place_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_place_image"
+        android:layout_columnWeight="1"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:text="Here goes a long place description hopefully in multiple rows, I guess... Who knows what will our users write down..."
+        android:textSize="10dp"
+        android:textStyle="italic" />
+
+      <TextView
+        android:id="@+id/view_place_points"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_place_description"
+        android:layout_margin="8dp"
+        android:drawableStart="@drawable/ic_scoreboard"
+        android:gravity="center_vertical"
+        android:text="Points worth" />
+
+      <TextView
+        android:id="@+id/view_place_visited"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_place_points"
+        android:layout_margin="8dp"
+        android:drawableStart="@drawable/ic_flag"
+        android:gravity="center_vertical"
+        android:text="Times visited" />
+
+      <TextView
+        android:id="@+id/view_place_creator_display_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_place_visited"
+        android:layout_margin="8dp"
+        android:drawableStart="@drawable/ic_build"
+        android:gravity="center_vertical"
+        android:text="Creator" />
+
+    </RelativeLayout>
+
+  </android.support.v7.widget.CardView>
+
+</LinearLayout>
