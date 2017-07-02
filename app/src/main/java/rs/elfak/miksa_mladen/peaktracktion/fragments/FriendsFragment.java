@@ -1,5 +1,6 @@
 package rs.elfak.miksa_mladen.peaktracktion.fragments;
 
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,39 +11,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.adapters.UserListAdapter;
 
-public class ScoreboardFragment extends Fragment {
-  private Query mUsersRef;
+public class FriendsFragment extends Fragment {
+  private DatabaseReference mFriendRef;
   private UserListAdapter mAdapter;
+
   private RecyclerView mRecView;
 
-  public ScoreboardFragment() {
-    // Required empty public constructor
-  }
-
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.fragment_people, container, false);
     mRecView = (RecyclerView) v.findViewById(R.id.friends_friend_list);
     mRecView.setLayoutManager(new LinearLayoutManager(this.getContext()));
     mRecView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
     mRecView.setItemAnimator(new DefaultItemAnimator());
 
-    mUsersRef = FirebaseDatabase.getInstance().getReference()
-      .child("users").orderByChild("points");
+    mFriendRef = FirebaseDatabase.getInstance().getReference()
+      .child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("friends");
     return v;
   }
 
   @Override
   public void onStart() {
     super.onStart();
-    mAdapter = new UserListAdapter(this.getContext(), mRecView, mUsersRef, true);
+    mAdapter = new UserListAdapter(this.getContext(), mRecView, mFriendRef, false);
     mRecView.setAdapter(mAdapter);
   }
 

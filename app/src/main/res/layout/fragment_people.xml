@@ -2,10 +2,9 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="rs.elfak.miksa_mladen.peaktracktion.fragments.PeopleFragment">
-
-  <ListView
-    android:id="@+id/list_view_friends"
+  tools:context="rs.elfak.miksa_mladen.peaktracktion.fragments.FriendsFragment">
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/friends_friend_list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />
 

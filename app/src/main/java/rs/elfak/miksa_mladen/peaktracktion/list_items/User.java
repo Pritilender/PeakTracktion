@@ -1,6 +1,12 @@
 package rs.elfak.miksa_mladen.peaktracktion.list_items;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import rs.elfak.miksa_mladen.peaktracktion.utils.Coordinates;
 
@@ -15,7 +21,7 @@ public class User {
   public String imgUrl = "https://unsplash.it/200/?random";
   public ArrayList<String> createdPlaces = new ArrayList<>();
   public ArrayList<String> visitedPlaces = new ArrayList<>();
-  public ArrayList<String> friends = new ArrayList<>();
+  public Map<String, Boolean> friends = new HashMap<>();
 
   public User() {
     // for .class()
