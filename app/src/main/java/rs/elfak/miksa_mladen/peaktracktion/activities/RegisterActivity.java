@@ -22,10 +22,14 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
+import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
 import rs.elfak.miksa_mladen.peaktracktion.providers.UserProvider;
 import rs.elfak.miksa_mladen.peaktracktion.utils.Validator;
 
@@ -87,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     boolean noPermission = selfPermission != PackageManager.PERMISSION_GRANTED;
 
     if (noPermission) {
-      if(ActivityCompat.shouldShowRequestPermissionRationale(this, READ_PHONE_STATE)) {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(this, READ_PHONE_STATE)) {
         // TODO
       } else {
         ActivityCompat.requestPermissions(
@@ -163,11 +168,26 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public void onComplete(@NonNull Task<AuthResult> task) {
           if (task.isSuccessful()) {
-            String fullName = etFullName.getText().toString();
-            String displayName = etDisplayName.getText().toString();
-            String phone = etPhone.getText().toString();
-            UserProvider.getInstance().addNewUser(mAuth.getCurrentUser().getUid(), fullName, email, phone, displayName, mPhotoPath);
-            finish();
+            final String fullName = etFullName.getText().toString();
+            final String displayName = etDisplayName.getText().toString();
+            final String phone = etPhone.getText().toString();
+            UserProvider.getInstance().addNewUser(mAuth.getCurrentUser().getUid(), fullName, email, phone, displayName, mPhotoPath)
+              .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                  Log.e("IMAGE", e.getMessage());
+                }
+              })
+              .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                  Uri imageUrl = taskSnapshot.getDownloadUrl();
+                  User newUser = new User(mAuth.getCurrentUser().getUid(), fullName, displayName, email, phone, imageUrl.toString());
+                  UserProvider.getInstance().setUser(newUser);
+                  FirebaseDatabase.getInstance().getReference().child("users").child(newUser.userId).setValue(newUser);
+                  finish();
+                }
+              });
           } else {
             try {
               throw task.getException();

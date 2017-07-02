@@ -189,7 +189,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         mUser.displayName = etDisplayName.getText().toString();
         mUser.fullName = etFullName.getText().toString();
         if (mPhotoPath != null) {
-          UserProvider.getInstance().saveUserImage(Uri.fromFile(new File(mPhotoPath)))
+          UserProvider.getInstance().saveUserImage(Uri.fromFile(new File(mPhotoPath)), mPhotoPath)
             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
               @Override
               public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

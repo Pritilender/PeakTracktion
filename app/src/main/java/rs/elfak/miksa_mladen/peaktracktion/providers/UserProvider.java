@@ -42,33 +42,19 @@ public class UserProvider {
     mUser = user;
   }
 
-  public UploadTask saveUserImage(Uri file) {
-    StorageReference userProfileRef = mImages.child("images").child("users");
+  public UploadTask saveUserImage(Uri file, String name) {
+    StorageReference userProfileRef = mImages.child("images").child("users").child(name);
     return userProfileRef.putFile(file);
   }
 
-  public void addNewUser(final String uid,
+  public UploadTask addNewUser(final String uid,
                          final String fullName,
                          final String email,
                          final String phone,
                          final String displayName,
                          final String imagePath) {
     Uri file = Uri.fromFile(new File(imagePath));
-    saveUserImage(file)
-      .addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {
-          Log.e("IMAGE", e.getMessage());
-        }
-      })
-      .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-        @Override
-        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-          Uri imageUrl = taskSnapshot.getDownloadUrl();
-          mUser = new User(uid, fullName, displayName, email, phone, imageUrl.toString());
-          mDatabase.child("users").child(mUser.userId).setValue(mUser);
-        }
-      });
+    return saveUserImage(file, imagePath);
   }
 
   public void updateUser(User updated) {
