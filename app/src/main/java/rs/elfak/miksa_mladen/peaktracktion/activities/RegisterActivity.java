@@ -37,7 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
-import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
+import rs.elfak.miksa_mladen.peaktracktion.models.User;
 import rs.elfak.miksa_mladen.peaktracktion.providers.UserProvider;
 import rs.elfak.miksa_mladen.peaktracktion.utils.Validator;
 

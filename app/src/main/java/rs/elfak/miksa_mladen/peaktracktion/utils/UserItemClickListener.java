@@ -7,7 +7,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import rs.elfak.miksa_mladen.peaktracktion.activities.UserInfoActivity;
-import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
+import rs.elfak.miksa_mladen.peaktracktion.models.User;
 
 public class UserItemClickListener implements View.OnClickListener {
   private ArrayList<User> mUserArrayList;

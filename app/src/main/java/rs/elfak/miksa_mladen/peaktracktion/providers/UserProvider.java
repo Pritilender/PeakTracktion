@@ -14,7 +14,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 
-import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
+import rs.elfak.miksa_mladen.peaktracktion.models.User;
 
 public class UserProvider {
   private User mUser;

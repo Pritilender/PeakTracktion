@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
-import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
+import rs.elfak.miksa_mladen.peaktracktion.models.User;
 import rs.elfak.miksa_mladen.peaktracktion.list_items.UserViewHolder;
 import rs.elfak.miksa_mladen.peaktracktion.utils.UserItemClickListener;
 
