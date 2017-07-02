@@ -40,4 +40,5 @@
   <string name="text_register_user">Registruj se</string>
   <string name="text_save">Sačuvaj</string>
   <string name="text_discard">Odbaci</string>
+  <string name="text_position">Pozicija</string>
 </resources>

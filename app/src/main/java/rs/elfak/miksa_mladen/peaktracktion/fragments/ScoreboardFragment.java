@@ -1,93 +1,54 @@
 package rs.elfak.miksa_mladen.peaktracktion.fragments;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
-import rs.elfak.miksa_mladen.peaktracktion.adapters.FriendListAdapter;
-import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
+import rs.elfak.miksa_mladen.peaktracktion.adapters.UserListAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ScoreboardFragment extends Fragment {
-  private ListView list;
-  private ArrayList<User> people;
-  private final String[] names = {
-    "Mitar",
-    "Boban",
-    "Ipce",
-    "Luis",
-    "Jasar",
-    "Zvonko",
-    "Mile",
-    "Bogdan",
-    "Zdravko",
-    "I naravno"
-  };
-
-  private final String[] surnames = {
-    "Miric",
-    "Zdravkovic",
-    "Ahmedovski",
-    "",
-    "Ahmedovski",
-    "Bogdan",
-    "Kitic",
-    "Zvonko",
-    "Colic",
-    "Dzej"
-  };
+  private Query mUsersRef;
+  private UserListAdapter mAdapter;
+  private RecyclerView mRecView;
 
   public ScoreboardFragment() {
     // Required empty public constructor
   }
 
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    people = new ArrayList<>();
-    for (int i = 0; i < names.length; i++) {
-      people.add(i, new User(names[i]));
-    }
-    sortPeople();
-//    FriendListAdapter adapter = new FriendListAdapter(this.getActivity(), people);
+    View v = inflater.inflate(R.layout.fragment_people, container, false);
+    mRecView = (RecyclerView) v.findViewById(R.id.friends_friend_list);
+    mRecView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+    mRecView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+    mRecView.setItemAnimator(new DefaultItemAnimator());
 
-    View view = inflater.inflate(R.layout.fragment_people, container, false);
-    list = (ListView) view.findViewById(R.id.friends_friend_list);
-//    list.setAdapter(adapter);
-    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view,
-                              int position, long id) {
-        // TODO Auto-generated method stub
-        String selectedItem = names[position] + " " + surnames[position];
-        Toast.makeText(getActivity(), selectedItem, Toast.LENGTH_SHORT).show();
-      }
-    });
-    return view;
+    mUsersRef = FirebaseDatabase.getInstance().getReference()
+      .child("users").orderByChild("points");
+    return v;
   }
 
-  private void sortPeople() {
-//    for (int i = 0; i < people.size() - 1; i++) {
-//      for (int j = i + 1; j < people.size(); j++) {
-//        if (people.get(i).obtainedPoints < people.get(j).obtainedPoints) {
-//          Collections.swap(people, i, j);
-//        }
-//      }
-//    }
+  @Override
+  public void onStart() {
+    super.onStart();
+    mAdapter = new UserListAdapter(this.getContext(), mRecView, mUsersRef, true);
+    mRecView.setAdapter(mAdapter);
   }
 
-
+  @Override
+  public void onStop() {
+    super.onStop();
+    mAdapter.cleanupListener();
+  }
 }
