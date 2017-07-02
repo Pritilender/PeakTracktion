@@ -11,6 +11,10 @@
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <!--Za uspostavljanje konekcije-->
+  <uses-permission android:name="android.permission.BLUETOOTH" />
+  <!-- Za ukljucivanje/iskljucivanje BT radija i ya pretrazivanje piconet-a za uredjaje-->
+  <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
   <uses-feature
     android:glEsVersion="0x00020000"
@@ -64,6 +68,10 @@
     <activity
       android:name=".activities.UserInfoActivity"
       android:theme="@style/AppTheme" />
+    <activity
+      android:name=".activities.ShowDevicesActivity"
+      android:label="@string/label_show_devices"
+      android:theme="@style/AppTheme"/>
 
     <service android:name=".services.BackgroundLocationService" />
 
