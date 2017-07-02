@@ -18,11 +18,22 @@
 
   <string name="hello_blank_fragment">Hello map fragment</string>
   <string name="title_activity_login">Prijava</string>
+
+  <!--Place-->
+  <string name="title_activity_edit_place">Azuriranje mesta</string>
+  <string name="title_activity_new_place">Kreiranje mesta</string>
+  <string name="text_take_picture_place">slikaj mesto</string>
+  <string name="hint_name_place">Ime vašeg mesta</string>
+  <string name="hint_description_place">Opis vašeg mesta</string>
+
   <string-array name="array_type_place">
-    <item>Tip 1</item>
-    <item>Tip 2</item>
-    <item>Tip 3</item>
-    <item>Tip 4</item>
+    <item>Vrh</item>
+    <item>Početak staze</item>
+    <item>Kraj staze</item>
+    <item>Upozorenje</item>
+    <item>Odron</item>
+    <item>Vidikovac</item>
+    <item>Izvor</item>
   </string-array>
   <string name="text_hi">Zdravo i dobrodošao!</string>
   <string name="text_info">Da bi mogao da koristiš PeakTracktion aplikaciju, moraš biti prijavljen:</string>

@@ -59,6 +59,7 @@
       android:theme="@style/AppTheme" />
     <activity
       android:name=".activities.EditPlaceActivity"
+      android:label="@string/title_activity_new_place"
       android:theme="@style/AppTheme" />
     <activity
       android:name=".activities.UserInfoActivity"
