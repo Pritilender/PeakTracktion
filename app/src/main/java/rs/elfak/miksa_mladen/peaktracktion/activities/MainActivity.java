@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -29,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.AboutFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.MapFragment;
-import rs.elfak.miksa_mladen.peaktracktion.fragments.PeopleFragment;
+import rs.elfak.miksa_mladen.peaktracktion.fragments.FriendsFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.PlacesFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.ScoreboardFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.SettingsFragment;
@@ -66,6 +65,7 @@ public class MainActivity extends AppCompatActivity
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             User u = dataSnapshot.getValue(User.class);
+
             UserProvider.getInstance().setUser(u);
             mUserName.setText(u.displayName);
             Glide.with(mHeaderView)
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity
         replaceFragment(new PlacesFragment(), "Places");
         break;
       case R.id.nav_friends:
-        replaceFragment(new PeopleFragment(), "Friends");
+        replaceFragment(new FriendsFragment(), "Friends");
         break;
       case R.id.nav_scoreboard:
         replaceFragment(new ScoreboardFragment(), "Scoreboard");

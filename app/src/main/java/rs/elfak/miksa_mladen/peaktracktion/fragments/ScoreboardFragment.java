@@ -11,8 +11,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.concurrent.ThreadLocalRandom;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.adapters.FriendListAdapter;
@@ -64,11 +62,11 @@ public class ScoreboardFragment extends Fragment {
       people.add(i, new User(names[i]));
     }
     sortPeople();
-    FriendListAdapter adapter = new FriendListAdapter(this.getActivity(), people);
+//    FriendListAdapter adapter = new FriendListAdapter(this.getActivity(), people);
 
     View view = inflater.inflate(R.layout.fragment_people, container, false);
-    list = (ListView) view.findViewById(R.id.list_view_friends);
-    list.setAdapter(adapter);
+    list = (ListView) view.findViewById(R.id.friends_friend_list);
+//    list.setAdapter(adapter);
     list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override
       public void onItemClick(AdapterView<?> parent, View view,
