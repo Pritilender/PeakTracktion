@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -29,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.AboutFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.MapFragment;
-import rs.elfak.miksa_mladen.peaktracktion.fragments.PeopleFragment;
+import rs.elfak.miksa_mladen.peaktracktion.fragments.FriendsFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.PlacesFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.ScoreboardFragment;
 import rs.elfak.miksa_mladen.peaktracktion.fragments.SettingsFragment;
@@ -61,11 +60,13 @@ public class MainActivity extends AppCompatActivity
 
       getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-      UserProvider.getInstance().populateUser(user.getUid())
+      UserProvider.getInstance().getUser(user.getUid())
         .addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             User u = dataSnapshot.getValue(User.class);
+
+            UserProvider.getInstance().setUser(u);
             mUserName.setText(u.displayName);
             Glide.with(mHeaderView)
               .load(u.imgUrl)
@@ -121,6 +122,12 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
+  protected void onResume() {
+    super.onResume();
+    setupUI(mAuth.getCurrentUser());
+  }
+
+  @Override
   public void onBackPressed() {
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -133,7 +140,7 @@ public class MainActivity extends AppCompatActivity
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.main, menu);
+//    getMenuInflater().inflate(R.menu.main, menu);
     return true;
   }
 
@@ -164,7 +171,7 @@ public class MainActivity extends AppCompatActivity
         replaceFragment(new PlacesFragment(), "Places");
         break;
       case R.id.nav_friends:
-        replaceFragment(new PeopleFragment(), "Friends");
+        replaceFragment(new FriendsFragment(), "Friends");
         break;
       case R.id.nav_scoreboard:
         replaceFragment(new ScoreboardFragment(), "Scoreboard");
@@ -199,7 +206,10 @@ public class MainActivity extends AppCompatActivity
         startLoginActivity();
         break;
       case R.id.button_user_name:
-        Toast.makeText(this, "Should enter user info activity", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, UserInfoActivity.class);
+        i.putExtra(UserInfoActivity.DISPLAY_ME, true);
+        i.putExtra(UserInfoActivity.USER_ID, mAuth.getCurrentUser().getUid());
+        startActivity(i);
         break;
     }
   }

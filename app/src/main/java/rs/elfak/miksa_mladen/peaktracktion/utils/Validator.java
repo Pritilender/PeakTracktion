@@ -1,6 +1,5 @@
 package rs.elfak.miksa_mladen.peaktracktion.utils;
 
-import android.content.res.Resources;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;

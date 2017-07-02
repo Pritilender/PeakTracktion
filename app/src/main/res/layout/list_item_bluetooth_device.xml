@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="48dp"
+  android:layout_margin="@dimen/activity_horizontal_margin"
+  android:gravity="top"
+  android:orientation="horizontal">
+
+  <TextView
+    android:id="@+id/list_item_bluetooth_name"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_alignParentStart="true"
+    android:gravity="center"
+    android:text="placeholder name" />
+
+  <TextView
+    android:id="@+id/list_item_bluetooth_address"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_alignParentEnd="true"
+    android:gravity="center"
+    android:text="placeholder address" />
+
+</RelativeLayout>

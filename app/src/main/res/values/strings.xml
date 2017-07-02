@@ -35,8 +35,6 @@
     <item>Vidikovac</item>
     <item>Izvor</item>
   </string-array>
-
-  <!--Auth-->
   <string name="text_hi">Zdravo i dobrodošao!</string>
   <string name="text_info">Da bi mogao da koristiš PeakTracktion aplikaciju, moraš biti prijavljen:</string>
   <string name="text_sign_in">Uloguj se</string>
@@ -51,4 +49,7 @@
   <string name="title_register">Registruj se</string>
   <string name="text_register_info">Kako bi se registrovao, potrebno je da popuniš sva polja i dodaš svoju sliku</string>
   <string name="text_register_user">Registruj se</string>
+  <string name="text_save">Sačuvaj</string>
+  <string name="text_discard">Odbaci</string>
+  <string name="label_show_devices">Lista uređaja</string>
 </resources>

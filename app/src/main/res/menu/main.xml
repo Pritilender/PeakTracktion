@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu>
-  <!--<item-->
-  <!--android:id="@+id/action_settings"-->
-  <!--android:orderInCategory="100"-->
-  <!--android:title="@string/action_settings"-->
-  <!--app:showAsAction="never" />-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <item
+    android:title="Bluetooth On"
+    android:id="@+id/action_bar_bluetooth_button"
+    android:orderInCategory="100"
+    android:icon="@drawable/ic_bluetooth_disabled_black_24dp"
+    app:showAsAction="always"/>
+  <item
+    android:title="Visibility On"
+    android:id="@+id/action_bar_bluetooth_visibility_button"
+    android:orderInCategory="100"
+    android:icon="@drawable/ic_visibility_black_24dp"
+    app:showAsAction="always"/>
+
 </menu>

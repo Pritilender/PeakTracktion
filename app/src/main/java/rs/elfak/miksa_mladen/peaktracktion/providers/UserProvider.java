@@ -14,9 +14,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 
-import rs.elfak.miksa_mladen.peaktracktion.models.Place;
-import rs.elfak.miksa_mladen.peaktracktion.models.User;
-import rs.elfak.miksa_mladen.peaktracktion.utils.Coordinates;
+import rs.elfak.miksa_mladen.peaktracktion.list_items.User;
 
 public class UserProvider {
   private User mUser;
@@ -36,54 +34,31 @@ public class UserProvider {
     // private constructor for singleton
   }
 
-  public DatabaseReference populateUser(String uid) {
+  public DatabaseReference getUser(String uid) {
     return mDatabase.child("users").child(uid);
   }
 
-  private UploadTask saveUserImage(Uri file) {
-    StorageReference userProfileRef = mImages.child("images").child("users");
+  public void setUser(User user) {
+    mUser = user;
+  }
+
+  public UploadTask saveUserImage(Uri file, String name) {
+    StorageReference userProfileRef = mImages.child("images").child("users").child(name);
     return userProfileRef.putFile(file);
   }
 
-  public void addNewUser(final String uid,
+  public UploadTask addNewUser(final String uid,
                          final String fullName,
                          final String email,
                          final String phone,
                          final String displayName,
                          final String imagePath) {
     Uri file = Uri.fromFile(new File(imagePath));
-    saveUserImage(file)
-      .addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {
-          Log.e("IMAGE", e.getMessage());
-        }
-      })
-      .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-        @Override
-        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-          Uri imageUrl = taskSnapshot.getDownloadUrl();
-          mUser = new User(uid, fullName, displayName, email, phone, imageUrl.toString());
-          mDatabase.child("users").child(mUser.userId).setValue(mUser);
-        }
-      });
+    return saveUserImage(file, imagePath);
   }
 
-  public void changeLocation(double latitude, double longitude) {
-    mUser.location = new Coordinates(latitude, longitude);
-    mDatabase.child("users").child(mUser.userId).child("location").setValue(mUser.location);
-  }
-
-  public void createPlace(Place place) {
-    place.placeId = mDatabase.child("users").child(mUser.userId).child("createdPlaces")
-      .push()
-      .getKey();
-    mDatabase.child("places").child(place.placeId)
-      .setValue(place);
-    mUser.createdPlaces.add(place.placeId);
-  }
-
-  public void visitPlace(Place place) {
-    mUser.visitedPlaces.add(place.placeId);
+  public void updateUser(User updated) {
+    mUser = updated;
+    mDatabase.child("users").child(mUser.userId).setValue(mUser);
   }
 }
