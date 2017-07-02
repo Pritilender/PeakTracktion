@@ -1,89 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="wrap_content"
+  android:layout_marginLeft="@dimen/activity_vertical_margin">
 
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  <ImageView
+    android:id="@+id/view_place_image"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:src="@android:drawable/bottom_bar" />
 
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center_horizontal"
-      android:orientation="horizontal"
-      android:paddingLeft="@dimen/activity_horizontal_margin"
-      android:paddingRight="@dimen/activity_horizontal_margin"
-      android:paddingTop="@dimen/activity_vertical_margin">
+  <TextView
+    android:id="@+id/view_place_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBottom="@id/view_place_image"
+    android:layout_alignStart="@id/view_place_image"
+    android:layout_gravity="center_vertical"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:paddingEnd="8dp"
+    android:paddingStart="8dp"
+    android:text="Place name goes here" />
 
-      <TextView
-        android:id="@+id/view_place_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:maxLines="1"
-        android:paddingLeft="15dp"
-        android:text="Ime Nekog Mesta" />
+  <ImageButton
+    android:id="@+id/activity_view_place_favorite_btn"
+    style="@style/Base.Widget.AppCompat.Button.Borderless"
+    android:layout_width="32dp"
+    android:layout_height="32dp"
+    android:layout_alignEnd="@id/view_place_image"
+    android:layout_alignTop="@id/view_place_image"
+    android:src="@drawable/ic_favorite_border_black_24px"
+    android:tint="@color/colorAccent" />
 
-      <android.support.v7.widget.AppCompatImageButton
-        android:id="@+id/activity_view_place_favorite_btn"
-        android:layout_width="32dp"
-        android:layout_height="32dp" />
-    </LinearLayout>
+  <TextView
+    android:id="@+id/view_place_description"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/view_place_image"
+    android:layout_gravity="center_vertical"
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:text="Opis takvog mesta Mesta i neka je u vise reda" />
 
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:paddingLeft="@dimen/activity_horizontal_margin"
-      android:paddingRight="@dimen/activity_horizontal_margin"
-      android:paddingTop="@dimen/activity_vertical_margin">
+  <TextView
+    android:id="@+id/view_place_text_type"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/view_place_description"
+    android:layout_gravity="center_vertical"
+    android:text="@string/tip" />
 
-      <TextView
-        android:id="@+id/view_place_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:lines="4"
-        android:paddingLeft="15dp"
-        android:text="Opis takvog mesta Mesta i neka je u vise reda" />
-    </LinearLayout>
+  <TextView
+    android:layout_marginLeft="8dp"
+    android:id="@+id/view_place_type"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/view_place_text_type"
+    android:layout_toRightOf="@id/view_place_text_type"
+    android:text="Ovde ide tip mesta" />
 
-    <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:paddingLeft="@dimen/activity_horizontal_margin"
-      android:paddingRight="@dimen/activity_horizontal_margin"
-      android:paddingTop="@dimen/activity_vertical_margin">
-
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="Tip: " />
-
-      <TextView
-        android:id="@+id/view_place_type"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:layout_margin="@dimen/activity_vertical_margin"
-      android:orientation="vertical"
-      android:paddingTop="10dp">
-
-      <ImageView
-        android:id="@+id/view_place_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
-  </LinearLayout>
-</ScrollView>
+</RelativeLayout>

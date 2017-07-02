@@ -34,6 +34,10 @@ public class UserProvider {
     // private constructor for singleton
   }
 
+  public User getUser() {
+    return mUser;
+  }
+
   public DatabaseReference getUser(String uid) {
     return mDatabase.child("users").child(uid);
   }

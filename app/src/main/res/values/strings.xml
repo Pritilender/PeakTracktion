@@ -21,7 +21,7 @@
 
   <!--Place-->
   <string name="title_activity_edit_place">Azuriranje mesta</string>
-  <string name="title_activity_new_place">Kreiranje mesta</string>
+  <string name="title_activity_new_place">Novo mesto</string>
   <string name="text_take_picture_place">slikaj mesto</string>
   <string name="hint_name_place">Ime vašeg mesta</string>
   <string name="hint_description_place">Opis vašeg mesta</string>
@@ -52,4 +52,5 @@
   <string name="text_save">Sačuvaj</string>
   <string name="text_discard">Odbaci</string>
   <string name="label_show_devices">Lista uređaja</string>
+  <string name="tip">Tip: </string>
 </resources>

@@ -34,7 +34,6 @@ public class FriendsFragment extends Fragment {
   private final static int REQUEST_ENABLE_BT = 1;
   private DatabaseReference mFriendRef;
   private UserListAdapter mAdapter;
-  private FloatingActionButton fabAddFriend;
   private BluetoothAdapter mBluetoothAdapter;
   private RecyclerView mRecView;
 
@@ -49,7 +48,7 @@ public class FriendsFragment extends Fragment {
     mFriendRef = FirebaseDatabase.getInstance().getReference()
       .child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("friends");
 
-    fabAddFriend = (FloatingActionButton) v.findViewById(R.id.fab_add_friend);
+    FloatingActionButton fabAddFriend = (FloatingActionButton) v.findViewById(R.id.fab_add_friend);
     mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
     fabAddFriend.setOnClickListener(new View.OnClickListener() {

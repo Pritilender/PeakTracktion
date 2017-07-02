@@ -62,20 +62,20 @@ public class UserListAdapter extends RecyclerView.Adapter<UserViewHolder> {
     ChildEventListener childEventListener = new ChildEventListener() {
       @Override
       public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        final String friendId = dataSnapshot.getKey();
+        final String userId = dataSnapshot.getKey();
 
         ValueEventListener valueEventListener = new ValueEventListener() {
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
-            User friend = dataSnapshot.getValue(User.class);
-            int friendIndex = userKeys.indexOf(friendId);
+            User user = dataSnapshot.getValue(User.class);
+            int userIndex = userKeys.indexOf(userId);
 
-            if (friendIndex > -1) {
-              users.set(friendIndex, friend);
-              notifyItemChanged(getTrueIndex(friendIndex));
+            if (userIndex > -1) {
+              users.set(userIndex, user);
+              notifyItemChanged(getTrueIndex(userIndex));
             } else {
-              users.add(friend);
-              userKeys.add(friendId);
+              users.add(user);
+              userKeys.add(userId);
               notifyItemInserted(getTrueIndex(users.size() - 1));
             }
           }
@@ -86,8 +86,8 @@ public class UserListAdapter extends RecyclerView.Adapter<UserViewHolder> {
           }
         };
 
-        mUserDatabaseRef.child(friendId).addValueEventListener(valueEventListener);
-        mUserValueEventListeners.put(friendId, valueEventListener);
+        mUserDatabaseRef.child(userId).addValueEventListener(valueEventListener);
+        mUserValueEventListeners.put(userId, valueEventListener);
       }
 
       @Override

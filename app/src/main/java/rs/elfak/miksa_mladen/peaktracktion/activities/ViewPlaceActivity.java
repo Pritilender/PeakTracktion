@@ -10,10 +10,6 @@ import android.widget.TextView;
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.models.Place;
 
-/**
- * Created by turboMladen on 30.6.17..
- */
-
 public class ViewPlaceActivity extends AppCompatActivity implements View.OnClickListener {
   private Place place;
   private TextView name;
@@ -33,10 +29,10 @@ public class ViewPlaceActivity extends AppCompatActivity implements View.OnClick
     btnFavorite = (ImageButton) findViewById(R.id.activity_view_place_favorite_btn);
     btnFavorite.setOnClickListener(this);
     if (isFavorite()) {
-//TODO add to favorites list
+      //TODO add to favorites list
       btnFavorite.setImageResource(R.drawable.ic_favorite_black_24px);
     } else {
-//TODO remove from favorites list
+      //TODO remove from favorites list
       btnFavorite.setImageResource(R.drawable.ic_favorite_border_black_24px);
     }
 

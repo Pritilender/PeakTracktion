@@ -11,6 +11,8 @@
 
   <android.support.design.widget.FloatingActionButton
     android:id="@+id/fab_newplace"
+    android:src="@drawable/ic_add_location"
+    android:tint="#FFFEFEFE"
     android:layout_width="56dp"
     android:layout_height="56dp"
     android:layout_gravity="bottom|end"

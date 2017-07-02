@@ -1,8 +1,14 @@
 package rs.elfak.miksa_mladen.peaktracktion.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,89 +16,56 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
+import rs.elfak.miksa_mladen.peaktracktion.activities.EditPlaceActivity;
 import rs.elfak.miksa_mladen.peaktracktion.adapters.PlacesAdapter;
 import rs.elfak.miksa_mladen.peaktracktion.models.Place;
+import rs.elfak.miksa_mladen.peaktracktion.models.User;
+import rs.elfak.miksa_mladen.peaktracktion.providers.UserProvider;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PlacesFragment extends Fragment {
-
-  private ListView list;
-
-  private final String[] itemName = {
-    "Trem",
-    "Koritnjak",
-    "Sokolov Kamen",
-    "Jelenin grad",
-    "Mon Blam",
-    "Pasarelo",
-    "Crni Kamen",
-    "Mosor",
-    "Niska Banja",
-    "Midzor",
-    "Djeravica",
-    "Poskok"
-  };
-
-  private final String[] itemDesc = {
-    "Najvisi vrh suve planine",
-    "Korito koje njace",
-    "Najlepsi pogled na Nis imate sa ove tacke",
-    "Odnosno kurvin grad",
-    "Najvisi vrh Evrope",
-    "Davno bejasmo tamo",
-    "Tu nas napade poskok",
-    "Alpinisticka tacka :D",
-    "Topla voda",
-    "Najvisi vrh srbije",
-    "Najvisi vrh SRBIJE!",
-    "zmija"
-  };
-
-  public PlacesFragment() {
-    // Required empty public constructor
-  }
-
+  private DatabaseReference mPlacesRef;
+  private PlacesAdapter mAdapter;
+  private RecyclerView mRecView;
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    View v = inflater.inflate(R.layout.fragment_places, container, false);
+    mRecView = (RecyclerView) v.findViewById(R.id.places_fragment_recycler_view);
+    mRecView.setLayoutManager(new LinearLayoutManager(getContext()));
+    mRecView.setItemAnimator(new DefaultItemAnimator());
 
-    ArrayList<Place> arrayOfPlaces = new ArrayList<>();
-    for (int i = 0; i < itemName.length; i++) {
-      arrayOfPlaces.add(i, new Place(itemName[i], itemDesc[i]));
-    }
+    mPlacesRef = FirebaseDatabase.getInstance().getReference().child("places");
 
-    PlacesAdapter adapter = new PlacesAdapter(this.getActivity(), arrayOfPlaces);
-
-    View view = inflater.inflate(R.layout.fragment_places, container, false);
-    list = (ListView) view.findViewById(R.id.list_view_places);
-    list.setAdapter(adapter);
-    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.places_fragment_add_new_place);
+    fab.setOnClickListener(new View.OnClickListener() {
       @Override
-      public void onItemClick(AdapterView<?> parent, View view,
-                              int position, long id) {
-        //TODO send place id as parameter
-//        try {
-//          Intent intent = new Intent(getActivity(), EditPlaceActivity.class);
-//          intent.putExtra("titleBar", getString(R.string.title_activity_new_place));
-//          startActivity(intent);
-//        } catch (Exception e) {
-//          Log.e("SOMETHING", e.getMessage());
-//        }
-        // TODO Auto-generated method stub
-        String selectedItem = itemName[position];
-        Toast.makeText(getActivity(), selectedItem, Toast.LENGTH_SHORT).show();
-
+      public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), EditPlaceActivity.class);
+        intent.putExtra("titleBar", getString(R.string.title_activity_new_place));
+        startActivity(intent);
       }
     });
 
-    return view;
+    return v;
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    mAdapter = new PlacesAdapter(getContext(), mPlacesRef, UserProvider.getInstance().getUser());
+    mRecView.setAdapter(mAdapter);
+  }
+
+  @Override
+  public void onStop() {
+    super.onStop();
+    mAdapter.cleanupListeners();
   }
 
 }

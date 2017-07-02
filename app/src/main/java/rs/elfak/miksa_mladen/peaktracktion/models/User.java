@@ -19,8 +19,9 @@ public class User {
   public Coordinates location = new Coordinates(0, 0);
   public int points = 0;
   public String imgUrl = "https://unsplash.it/200/?random";
-  public ArrayList<String> createdPlaces = new ArrayList<>();
-  public ArrayList<String> visitedPlaces = new ArrayList<>();
+  public Map<String, Boolean> createdPlaces = new HashMap<>();
+  public Map<String, Boolean> visitedPlaces = new HashMap<>();
+  public Map<String, Boolean> favoritePlaces = new HashMap<>();
   public Map<String, Boolean> friends = new HashMap<>();
 
   public User() {

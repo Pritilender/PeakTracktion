@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -26,9 +25,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import rs.elfak.miksa_mladen.peaktracktion.R;
-import rs.elfak.miksa_mladen.peaktracktion.services.BackgroundLocationService;
 import rs.elfak.miksa_mladen.peaktracktion.activities.EditPlaceActivity;
-import rs.elfak.miksa_mladen.peaktracktion.activities.MainActivity;
+import rs.elfak.miksa_mladen.peaktracktion.services.BackgroundLocationService;
 
 public class MapFragment extends Fragment
   implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener {
@@ -38,7 +36,6 @@ public class MapFragment extends Fragment
   private MapView mMapView;
   private GoogleMap mMap;
   public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
-  private FloatingActionButton fab;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +47,15 @@ public class MapFragment extends Fragment
   public View onCreateView(LayoutInflater inflater, ViewGroup cont, Bundle savedInstanceState) {
     View inflatedView = inflater.inflate(R.layout.fragment_map, cont, false);
 
-    fab = (FloatingActionButton) inflatedView.findViewById(R.id.fab_newplace);
-    fab.setImageResource(R.drawable.ic_add_black_24dp);
+    FloatingActionButton fab = (FloatingActionButton) inflatedView.findViewById(R.id.fab_newplace);
+    fab.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), EditPlaceActivity.class);
+        intent.putExtra("titleBar", getString(R.string.title_activity_new_place));
+        startActivity(intent);
+      }
+    });
 
     try {
       MapsInitializer.initialize(getActivity());
@@ -61,24 +65,9 @@ public class MapFragment extends Fragment
 
     mMapView = (MapView) inflatedView.findViewById(R.id.map);
     mMapView.onCreate(mBundle);
-
     if (mMap == null) {
       ((MapView) inflatedView.findViewById(R.id.map)).getMapAsync(this);
     }
-
-
-    fab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        try {
-          Intent intent = new Intent(getActivity(), EditPlaceActivity.class);
-          intent.putExtra("titleBar", getString(R.string.title_activity_new_place));
-          startActivity(intent);
-        } catch (Exception e) {
-          Log.e("SOMETHING", e.getMessage());
-        }
-      }
-    });
 
     return inflatedView;
   }

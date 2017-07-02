@@ -1,20 +1,24 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:orientation="vertical"
   tools:context="rs.elfak.miksa_mladen.peaktracktion.fragments.PlacesFragment">
 
-  <!-- TODO: Update blank fragment layout -->
-
-  <!--<TextView-->
-  <!--android:layout_width="match_parent"-->
-  <!--android:layout_height="match_parent"-->
-  <!--android:text="@string/hello_blank_fragment" />-->
-  <ListView
-    android:id="@+id/list_view_places"
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/places_fragment_recycler_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp">
+  </android.support.v7.widget.RecyclerView>
 
-  </ListView>
+  <android.support.design.widget.FloatingActionButton
+    android:id="@+id/places_fragment_add_new_place"
+    android:src="@drawable/ic_add_location"
+    android:tint="#FFFEFEFE"
+    android:layout_width="56dp"
+    android:layout_height="56dp"
+    android:layout_gravity="bottom|end"
+    android:layout_margin="@dimen/fab_margin" />
 
-</LinearLayout>
+</FrameLayout>
