@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ public class ShowDevicesActivity extends AppCompatActivity {
   private BluetoothListAdapter adapter;
   private ArrayList<String> devicesList = new ArrayList<>();
 
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,6 +47,14 @@ public class ShowDevicesActivity extends AppCompatActivity {
 
     setContentView(R.layout.activity_bluetooth);
     list = (ListView) findViewById(R.id.activity_bluetooth_list_view);
+
+    list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String selectedItem = devicesList.get(position);
+        Toast.makeText(getBaseContext(), selectedItem, Toast.LENGTH_SHORT).show();
+      }
+    });
 
     IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
     registerReceiver(mReceiver, filter);
@@ -115,4 +126,14 @@ public class ShowDevicesActivity extends AppCompatActivity {
       startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BT);
     }
   }
+
+  private void tryToConnect(String target) {
+    mBluetoothAdapter.cancelDiscovery();
+
+  }
+
+
+
 }
+
+
