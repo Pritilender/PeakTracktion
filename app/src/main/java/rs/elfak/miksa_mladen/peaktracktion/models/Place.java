@@ -13,18 +13,17 @@ public class Place {
   public int points;
   public int timesVisited;
 
-  public Place() {
-
-  }
-
-  public Place(String name, String description, String imgURL) {
+  public Place(String name, String description, String imgURL, String creator, Coordinates coordinates, String type) {
     this.name = name;
     this.description = description;
     this.imgURL = imgURL;
+    this.coords = coordinates;
+    this.creator = creator;
+    this.timesVisited = 1;
+    this.points = 100;
+    this.type = type;
   }
 
-  public Place(String name, String description) {
-    this.name = name;
-    this.description = description;
+  public Place() {
   }
 }

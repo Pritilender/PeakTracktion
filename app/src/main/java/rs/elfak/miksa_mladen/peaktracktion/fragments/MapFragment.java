@@ -52,7 +52,6 @@ public class MapFragment extends Fragment
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(getActivity(), EditPlaceActivity.class);
-        intent.putExtra("titleBar", getString(R.string.title_activity_new_place));
         startActivity(intent);
       }
     });

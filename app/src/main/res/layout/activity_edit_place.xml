@@ -1,115 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="wrap_content"
+  android:layout_margin="@dimen/activity_vertical_margin"
+  android:orientation="vertical">
 
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  <LinearLayout
+    android:id="@+id/edit_place_layout_text"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <LinearLayout
+    <EditText
+      android:id="@+id/edit_place_name"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:gravity="center_horizontal"
-      android:orientation="horizontal"
-      android:paddingLeft="@dimen/activity_horizontal_margin"
-      android:paddingRight="@dimen/activity_horizontal_margin"
-      android:paddingTop="@dimen/activity_vertical_margin">
+      android:layout_marginBottom="@dimen/activity_vertical_margin"
+      android:hint="@string/hint_name_place"
+      android:inputType="text" />
 
-      <EditText
-        android:id="@+id/edit_place_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:hint="@string/hint_name_place"
-        android:inputType="text"
-        android:maxLines="1"
-        android:paddingLeft="15dp" />
-    </LinearLayout>
-
-    <LinearLayout
+    <EditText
+      android:id="@+id/edit_place_description"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:paddingLeft="@dimen/activity_horizontal_margin"
-      android:paddingRight="@dimen/activity_horizontal_margin"
-      android:paddingTop="@dimen/activity_vertical_margin">
+      android:layout_gravity="center_vertical"
+      android:layout_marginBottom="@dimen/activity_vertical_margin"
+      android:hint="@string/hint_description_place"
+      android:inputType="textMultiLine"
+      android:lines="4" />
 
-      <EditText
-        android:id="@+id/edit_place_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:hint="@string/hint_description_place"
-        android:inputType="textMultiLine"
-        android:lines="4"
-        android:paddingLeft="15dp" />
-    </LinearLayout>
-
-    <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal"
-      android:paddingLeft="@dimen/activity_horizontal_margin"
-      android:paddingRight="@dimen/activity_horizontal_margin"
-      android:paddingTop="@dimen/activity_vertical_margin">
-
-      <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="Tip" />
-
-      <Spinner
-        android:id="@+id/edit_place_type_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/array_type_place" />
-    </LinearLayout>
-
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:layout_margin="@dimen/activity_vertical_margin"
-      android:orientation="vertical"
-      android:paddingTop="10dp">
-
-      <Button
-        android:id="@+id/edit_place_add_picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:drawableLeft="@android:drawable/ic_menu_camera"
-        android:text="@string/text_take_picture_place" />
-
-      <ImageView
-        android:id="@+id/view_place_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:orientation="horizontal"
-      android:paddingTop="10dp">
-
-      <Button
-        android:id="@+id/edit_place_OK"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="OK" />
-
-      <Button
-        android:id="@+id/edit_place_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Cancel" />
-    </LinearLayout>
   </LinearLayout>
-</ScrollView>
+
+
+  <TextView
+    android:id="@+id/edit_place_type_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:layout_below="@id/edit_place_layout_text"
+    android:layout_gravity="center_vertical"
+    android:text="Tip"
+    android:textSize="16dp" />
+
+  <Spinner
+    android:id="@+id/edit_place_type_spinner"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@id/edit_place_type_text"
+    android:layout_alignTop="@id/edit_place_type_text"
+    android:layout_toRightOf="@id/edit_place_type_text"
+    android:entries="@array/array_type_place" />
+
+  <Button
+    android:id="@+id/edit_place_add_picture"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@id/edit_place_type_spinner"
+    android:layout_gravity="center_horizontal"
+    android:layout_toEndOf="@id/edit_place_type_spinner"
+    android:drawableLeft="@android:drawable/ic_menu_camera"
+    android:text="@string/text_take_picture_place"
+    android:textAllCaps="false" />
+
+  <ImageView
+    android:id="@+id/view_place_image"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:layout_below="@id/edit_place_type_text" />
+
+  <Button
+    android:id="@+id/edit_place_save"
+    style="@style/Widget.AppCompat.Button.Colored"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_below="@id/view_place_image"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:drawableLeft="@drawable/ic_save"
+    android:text="@string/save_place" />
+
+  <Button
+    android:id="@+id/edit_place_cancel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/view_place_image"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_toLeftOf="@id/edit_place_save"
+    android:drawableRight="@drawable/ic_clear"
+    android:text="@string/dontsave_place" />
+</RelativeLayout>
