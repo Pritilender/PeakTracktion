@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.bumptech.glide.Glide;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -162,13 +164,16 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
 
   public void savePlace(String name, String description, String type, Coordinates coords, String url) {
     String userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    Place place = new Place(name, description, url, userKey, coords, type);
-    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+    final Place place = new Place(name, description, url, userKey, coords, type);
+    final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     String newPlaceKey = dbRef.child("users").child(userKey).child("createdPlaces").push().getKey();
     place.placeId = newPlaceKey;
     dbRef.child("places").child(newPlaceKey).setValue(place).addOnSuccessListener(new OnSuccessListener<Void>() {
       @Override
       public void onSuccess(Void aVoid) {
+        GeoFire geoFire = new GeoFire(dbRef.child("placesGeoFire"));
+        GeoLocation placeLocation = new GeoLocation(place.coords.latitude, place.coords.longitude);
+        geoFire.setLocation(place.placeId, placeLocation);
         finish();
       }
     });

@@ -53,17 +53,17 @@ public class BackgroundLocationService extends Service {
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-      Toast.makeText(BackgroundLocationService.this, "Status changed for provider: " + provider + " " + status, Toast.LENGTH_SHORT).show();
+//      Toast.makeText(BackgroundLocationService.this, "Status changed for provider: " + provider + " " + status, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-      Toast.makeText(BackgroundLocationService.this, "Provider enabled: " + provider, Toast.LENGTH_SHORT).show();
+//      Toast.makeText(BackgroundLocationService.this, "Provider enabled: " + provider, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-      Toast.makeText(BackgroundLocationService.this, "Provider disabled: " + provider, Toast.LENGTH_SHORT).show();
+//      Toast.makeText(BackgroundLocationService.this, "Provider disabled: " + provider, Toast.LENGTH_SHORT).show();
     }
   }
 
