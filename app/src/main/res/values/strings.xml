@@ -20,7 +20,6 @@
   <string name="title_activity_login">Prijava</string>
 
   <!--Place-->
-  <string name="title_activity_edit_place">Azuriranje mesta</string>
   <string name="title_activity_new_place">Novo mesto</string>
   <string name="text_take_picture_place">Slikaj mesto</string>
   <string name="hint_name_place">Ime mesta</string>

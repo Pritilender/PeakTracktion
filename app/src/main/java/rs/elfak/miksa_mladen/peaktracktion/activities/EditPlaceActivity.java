@@ -27,19 +27,19 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import rs.elfak.miksa_mladen.peaktracktion.Manifest;
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.models.Place;
-import rs.elfak.miksa_mladen.peaktracktion.services.BackgroundLocationService;
 import rs.elfak.miksa_mladen.peaktracktion.utils.Coordinates;
 
-public class EditPlaceActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditPlaceActivity extends AppCompatActivity implements View.OnClickListener, OnSuccessListener<Location> {
   private static final int REQUEST_IMAGE_CAPTURE = 1;
   private static final int REQUEST_LOCATION = 1;
   private final String locationPermission = android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -65,7 +65,7 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
     findViewById(R.id.edit_place_add_picture).setOnClickListener(this);
 
     ActionBar header = getSupportActionBar();
-    header.setTitle(R.string.title_activity_edit_place);
+    header.setTitle(R.string.title_activity_new_place);
     header.setDisplayHomeAsUpEnabled(true);
 
     mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
@@ -108,18 +108,7 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
             ActivityCompat.requestPermissions(getParent(), new String[]{locationPermission}, REQUEST_LOCATION);
           }
         } else {
-          mFusedLocation.getLastLocation()
-            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-              @Override
-              public void onSuccess(Location location) {
-                String name = etName.getText().toString();
-                String description = etDescription.getText().toString();
-                String type = spTypes.getSelectedItem().toString();
-                Coordinates coords = new Coordinates(location.getLatitude(), location.getLongitude());
-                savePlace(name, description, type, coords);
-                finish();
-              }
-            });
+          mFusedLocation.getLastLocation().addOnSuccessListener(this, this);
         }
         break;
       case R.id.edit_place_add_picture:
@@ -152,27 +141,28 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
           && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
           if (ContextCompat.checkSelfPermission(this, locationPermission) ==
             PackageManager.PERMISSION_GRANTED) {
-            mFusedLocation.getLastLocation()
-              .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                  String name = etName.getText().toString();
-                  String description = etDescription.getText().toString();
-                  String type = spTypes.getSelectedItem().toString();
-                  Coordinates coords = new Coordinates(location.getLatitude(), location.getLongitude());
-                  savePlace(name, description, type, coords);
-                  finish();
-                }
-              });
+            mFusedLocation.getLastLocation().addOnSuccessListener(this, this);
           }
         }
       }
     }
   }
 
-  public void savePlace(String name, String description, String type, Coordinates coords) {
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putString("PHOTO_PATH", mPhotoPath);
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    mPhotoPath = savedInstanceState.getString("PHOTO_PATH");
+  }
+
+  public void savePlace(String name, String description, String type, Coordinates coords, String url) {
     String userKey = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    Place place = new Place(name, description, mPhotoPath, userKey, coords, type);
+    Place place = new Place(name, description, url, userKey, coords, type);
     DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     String newPlaceKey = dbRef.child("users").child(userKey).child("createdPlaces").push().getKey();
     place.placeId = newPlaceKey;
@@ -191,5 +181,23 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
     File image = File.createTempFile(imageFileName, ".jpg", storageDir);
     mPhotoPath = image.getAbsolutePath();
     return image;
+  }
+
+  @Override
+  public void onSuccess(final Location location) {
+    FirebaseStorage.getInstance().getReference()
+      .child("places").putFile(Uri.fromFile(new File(mPhotoPath)))
+      .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        @Override
+        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+          String name = etName.getText().toString();
+          String description = etDescription.getText().toString();
+          String type = spTypes.getSelectedItem().toString();
+          Coordinates coords = new Coordinates(location.getLatitude(), location.getLongitude());
+          String url = taskSnapshot.getDownloadUrl().toString();
+          savePlace(name, description, type, coords, url);
+        }
+      });
+    finish();
   }
 }

@@ -26,7 +26,8 @@
         android:layout_height="160dp"
         android:layout_alignParentTop="true"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         app:srcCompat="@android:drawable/sym_def_app_icon" />
 
       <ImageView
