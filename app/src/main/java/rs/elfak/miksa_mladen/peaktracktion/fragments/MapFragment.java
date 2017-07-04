@@ -42,6 +42,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -50,7 +51,9 @@ import com.google.firebase.database.ValueEventListener;
 import rs.elfak.miksa_mladen.peaktracktion.R;
 import rs.elfak.miksa_mladen.peaktracktion.activities.EditPlaceActivity;
 import rs.elfak.miksa_mladen.peaktracktion.models.Place;
+import rs.elfak.miksa_mladen.peaktracktion.models.User;
 import rs.elfak.miksa_mladen.peaktracktion.services.BackgroundLocationService;
+import rs.elfak.miksa_mladen.peaktracktion.utils.UsersGeoQueryListener;
 
 public class MapFragment extends Fragment
   implements OnMapReadyCallback,
@@ -76,6 +79,8 @@ public class MapFragment extends Fragment
   // GeoFire
   private GeoFire mGeoFire;
   private GeoQuery mGeoQuery;
+  private GeoFire mUserGeoFire;
+  private GeoQuery mUserGeoQuery;
   private double mRadius = 1000;
   private LocationManager mLocationManager;
   private String locationProvider;
@@ -86,6 +91,7 @@ public class MapFragment extends Fragment
     mBundle = savedInstanceState;
 
     mGeoFire = new GeoFire(FirebaseDatabase.getInstance().getReference().child("placesGeoFire"));
+    mUserGeoFire = new GeoFire(FirebaseDatabase.getInstance().getReference().child("usersGeoFire"));
     mGeoQuery = mGeoFire.queryAtLocation(new GeoLocation(mLocation.latitude, mLocation.longitude),
       mRadius / 1000);
     mGeoQuery.addGeoQueryEventListener(this);
@@ -142,6 +148,9 @@ public class MapFragment extends Fragment
     mMap = googleMap;
     mMap.animateCamera(CameraUpdateFactory.zoomTo(12.0f));
     mMap.setOnMarkerClickListener(this);
+    mUserGeoQuery = mUserGeoFire.queryAtLocation(mLocation, mRadius / 1000);
+    mUserGeoQuery.addGeoQueryEventListener(new UsersGeoQueryListener(mMap));
+
     UiSettings mapUi = mMap.getUiSettings();
     mapUi.setCompassEnabled(true);
     checkLocationPermission();
@@ -155,17 +164,18 @@ public class MapFragment extends Fragment
   @Override
   public boolean onMarkerClick(Marker marker) {
     String key = mPoiMarkers.inverse().get(marker);
-    FirebaseDatabase.getInstance().getReference().child("places").child(key)
-      .addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-          Toast.makeText(getActivity(), "Place clicked " + dataSnapshot.getValue(Place.class).name, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-        }
-      });
+    Toast.makeText(getActivity(), (String)marker.getTag(), Toast.LENGTH_SHORT).show();
+//    FirebaseDatabase.getInstance().getReference().child("places").child(key)
+//      .addListenerForSingleValueEvent(new ValueEventListener() {
+//        @Override
+//        public void onDataChange(DataSnapshot dataSnapshot) {
+//          Toast.makeText(getActivity(), "Place clicked " + dataSnapshot.getValue(Place.class).name, Toast.LENGTH_SHORT).show();
+//        }
+//
+//        @Override
+//        public void onCancelled(DatabaseError databaseError) {
+//        }
+//      });
     return true;
   }
 
@@ -269,8 +279,11 @@ public class MapFragment extends Fragment
   public void onKeyEntered(String key, GeoLocation location) {
     MarkerOptions markerOptions = new MarkerOptions();
     markerOptions.position(new LatLng(location.latitude, location.longitude));
-    Marker marker = mMap.addMarker(markerOptions);
-    mPoiMarkers.put(key, marker);
+    if (mMap != null) {
+      Marker marker = mMap.addMarker(markerOptions);
+      marker.setTag("Place " + key);
+      mPoiMarkers.put(key, marker);
+    }
   }
 
   @Override

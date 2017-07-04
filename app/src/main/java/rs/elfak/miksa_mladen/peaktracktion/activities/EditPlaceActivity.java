@@ -191,7 +191,7 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
   @Override
   public void onSuccess(final Location location) {
     FirebaseStorage.getInstance().getReference()
-      .child("places").putFile(Uri.fromFile(new File(mPhotoPath)))
+      .child("places").child(mPhotoPath).putFile(Uri.fromFile(new File(mPhotoPath)))
       .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
         @Override
         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -203,6 +203,5 @@ public class EditPlaceActivity extends AppCompatActivity implements View.OnClick
           savePlace(name, description, type, coords, url);
         }
       });
-    finish();
   }
 }

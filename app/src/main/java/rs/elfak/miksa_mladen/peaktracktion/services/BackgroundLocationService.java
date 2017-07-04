@@ -1,5 +1,7 @@
 package rs.elfak.miksa_mladen.peaktracktion.services;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -9,25 +11,103 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import rs.elfak.miksa_mladen.peaktracktion.R;
+import rs.elfak.miksa_mladen.peaktracktion.activities.ViewPlaceActivity;
+import rs.elfak.miksa_mladen.peaktracktion.models.Place;
 import rs.elfak.miksa_mladen.peaktracktion.utils.Coordinates;
 
-public class BackgroundLocationService extends Service {
+public class BackgroundLocationService extends Service implements GeoQueryEventListener {
   private FirebaseAuth mAuth = FirebaseAuth.getInstance();
   private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+  private GeoFire mGeoFire = new GeoFire(mDatabase.child("placesGeoFire"));
+  private GeoQuery mGeoQuery = mGeoFire.queryAtLocation(new GeoLocation(0, 0), 10);
+  private NotificationCompat.Builder mNotifBuilder;
+
+  @Override
+  public void onKeyEntered(String key, GeoLocation location) {
+    mDatabase.child("places").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        final Place p = dataSnapshot.getValue(Place.class);
+        mNotifBuilder = new NotificationCompat.Builder(getApplicationContext())
+          .setSmallIcon(R.drawable.ic_flag)
+          .setContentTitle("Stigli ste na " + p.name)
+          .setContentText("Osvojili ste " + p.points + " poena! Kliknite ovde da biste ga videli u aplikaciji.");
+
+        Intent i = new Intent(getApplicationContext(), ViewPlaceActivity.class);
+        i.putExtra("PLACE_ID", p.placeId);
+        PendingIntent resultPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
+        mNotifBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(001, mNotifBuilder.build());
+
+        mDatabase.child("places").child(p.placeId).child("timesVisited").setValue(p.timesVisited++);
+        mDatabase.child("places").child(p.placeId).child("points").setValue(p.points + 10);
+        mDatabase.child("users").child(mAuth.getCurrentUser().getUid()).child("placesVisited").child(p.placeId).setValue(true);
+        mDatabase.child("users").child(mAuth.getCurrentUser().getUid()).child("points").addListenerForSingleValueEvent(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+            long points = (long) dataSnapshot.getValue();
+            points += p.points;
+            mDatabase.child("users").child(mAuth.getCurrentUser().getUid()).child("points").setValue(points);
+          }
+
+          @Override
+          public void onCancelled(DatabaseError databaseError) {
+
+          }
+        });
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+
+      }
+    });
+  }
+
+  @Override
+  public void onKeyExited(String key) {
+
+  }
+
+  @Override
+  public void onKeyMoved(String key, GeoLocation location) {
+
+  }
+
+  @Override
+  public void onGeoQueryReady() {
+
+  }
+
+  @Override
+  public void onGeoQueryError(DatabaseError error) {
+
+  }
 
   private class BackgroundLocationListener implements LocationListener {
     private Location mLastLocation;
 
     public void setLastLocation(Location newLoc) {
       mLastLocation = newLoc;
+      mGeoQuery.setCenter(new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()));
       FirebaseUser user = mAuth.getCurrentUser();
       if (user != null) {
         try {
@@ -115,6 +195,7 @@ public class BackgroundLocationService extends Service {
     }
 
     mAuth = FirebaseAuth.getInstance();
+    mGeoQuery.addGeoQueryEventListener(this);
   }
 
   @Override
